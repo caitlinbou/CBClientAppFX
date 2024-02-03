@@ -14,7 +14,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Button mnemonicParsing="false" text="Button" onAction="#handleButtonAction" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label text="Test" />
    </children>
 </GridPane>
