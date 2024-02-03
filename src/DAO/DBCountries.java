@@ -1,4 +1,4 @@
-package DBAccess;
+package DAO;
 
 import helper.JDBC;
 import Model.Countries;

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="sample.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controller.LoginController">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
@@ -15,6 +15,5 @@
    </rowConstraints>
    <children>
       <Button mnemonicParsing="false" text="Button" onAction="#handleButtonAction" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label text="Test" />
    </children>
 </GridPane>
