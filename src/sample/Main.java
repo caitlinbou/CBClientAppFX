@@ -17,6 +17,7 @@ public class Main extends Application {
         primaryStage.show();
 
         JDBC.openConnection();
+        //code goes HERE
         JDBC.closeConnection();
     }
 
