@@ -7,6 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
 
     @Override
@@ -28,9 +31,19 @@ public class Main extends Application {
     }
     public static void main(String[] args) {
 
+        try {
+        ResourceBundle rb = ResourceBundle.getBundle("Utilities/Nat", Locale.getDefault());
+        if(Locale.getDefault().getLanguage().equals("fr")){
+            System.out.println(rb.getString("hello" + " " + "userName"));
+        }
+        else {System.out.println("ENGLISH");
+        }
+        } catch (Exception e){
+            System.out.println("Error:" + e.getMessage());
+        };
+
         JDBC.openConnection();
         launch(args);
-
         //code goes HERE
         JDBC.closeConnection();
     }
