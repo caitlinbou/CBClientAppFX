@@ -31,8 +31,8 @@
                            <children>
                               <Label text="User Name" />
                               <Label text="Password" GridPane.rowIndex="1" />
-                              <TextField prefHeight="20.0" prefWidth="179.0" GridPane.columnIndex="1" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="userName" prefHeight="20.0" prefWidth="179.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleButtonAction" text="Submit" textAlignment="CENTER" />

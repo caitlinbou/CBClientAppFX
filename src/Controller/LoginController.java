@@ -2,24 +2,33 @@ package Controller;
 
 import DAO.DBUsers;
 import javafx.fxml.FXML;
-import DAO.DBCountries;
 import Model.Users;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    public TableColumn idCol;
-    public TableColumn nameCol;
-    public TableView dataTable;
+
+    @FXML
+    private Label errorFeedback;
+
+    @FXML
+    private Label language;
+
+    @FXML
+    private TextField password;
+
+    @FXML
+    private TextField userName;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
     @FXML
     private void handleButtonAction (ActionEvent event){
