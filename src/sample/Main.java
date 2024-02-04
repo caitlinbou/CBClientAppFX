@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/Login.fxml"));
-        primaryStage.setTitle("DB Connection");
+        primaryStage.setTitle("Login Page");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
@@ -31,16 +31,7 @@ public class Main extends Application {
     }
     public static void main(String[] args) {
 
-        try {
-        ResourceBundle rb = ResourceBundle.getBundle("Utilities/Nat", Locale.getDefault());
-        if(Locale.getDefault().getLanguage().equals("fr")){
-            System.out.println(rb.getString("hello" + " " + "userName"));
-        }
-        else {System.out.println("ENGLISH");
-        }
-        } catch (Exception e){
-            System.out.println("Error:" + e.getMessage());
-        };
+
 
         JDBC.openConnection();
         launch(args);

@@ -1,16 +1,16 @@
 package DAO;
 
 import helper.JDBC;
-import Model.Users;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 
 public class DBUsers {
-    public static ObservableList<Users> getAllUsers(){
+    public static ObservableList<User> getAllUsers(){
 
-        ObservableList<Users> userList = FXCollections.observableArrayList();
+        ObservableList<User> userList = FXCollections.observableArrayList();
 
         try{
             String sql = "SELECT * from users";
@@ -23,12 +23,12 @@ public class DBUsers {
                 int userId = rs.getInt("User_ID");
                 String userName = rs.getString("User_Name");
                 String userPassword = rs.getString("Password");
-                Users U = new Users(userId, userName, userPassword);
+                User U = new User(userId, userName, userPassword);
                 userList.add(U);
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         } return userList;
-
     }
+
 }
