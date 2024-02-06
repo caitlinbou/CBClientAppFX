@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
             if ((!Objects.equals(U.getName(), nameInput)) || (!Objects.equals(U.getPassword(), passInput))) {
                 errorFeedback.setText("I'm sorry, that is not a valid entry. Please re-enter your user name or password.");
             } else {
-                errorFeedback.setText("Accepted!");
+                U.getId();
                 stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/ViewAppointments.fxml")));
                 stage.setScene(new Scene(scene));

@@ -46,8 +46,8 @@ public class EditAppointmentsController {
     private TextField typeTxt;
 
     public void sendAppointment(Appointment appointment) throws IOException {
-        customerID = appointment.getCustomerID();
-        contactID = appointment.getContactID();
+        customerID = appointment.getCustId();
+        contactID = appointment.getContactId();
         title = appointment.getTitle();
         type = appointment.getType();
         start = appointment.getStart();

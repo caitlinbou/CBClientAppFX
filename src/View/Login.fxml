@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <children>
       <HBox layoutX="105.0" layoutY="124.0" prefHeight="91.0" prefWidth="423.0">
@@ -44,5 +45,10 @@
             </TextFlow>
          </children>
       </HBox>
+       <Label layoutX="14.0" layoutY="14.0" text="Appointment Manager Login">
+           <font>
+               <Font name="System Bold" size="12.0" />
+           </font>
+       </Label>
    </children>
 </AnchorPane>
