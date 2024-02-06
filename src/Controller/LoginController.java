@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.DBUsers;
+import Model.Appointment;
 import javafx.fxml.FXML;
 import Model.User;
 import javafx.collections.ObservableList;
@@ -18,6 +19,8 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static DAO.DBAppointments.getApptsByUser;
 
 public class LoginController implements Initializable {
     Stage stage;
@@ -37,14 +40,12 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            ResourceBundle rb = ResourceBundle.getBundle("Utilities/Resource Bundle 'Nat'/Nat", Locale.getDefault());
+            ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
             if(Locale.getDefault().getLanguage().equals("fr")) {
                 language.setText("Canada");
                 System.out.println(rb.getString("hello" + " " + "userName"));
-                //TODO: adjust to be locale with place and language, not just language.
-            }else if(Locale.getDefault().getLanguage().equals("en")) {
-                language.setText("United Kingdom");
             }
+
         }catch (Exception e){
             language.setText("United States");
             System.out.println("Error:" + e.getMessage());
@@ -52,6 +53,7 @@ public class LoginController implements Initializable {
     }
     @FXML
     private void handleButtonAction (ActionEvent event){
+
         ObservableList<User> userList = DBUsers.getAllUsers();
         String nameInput = userName.getText();
         String passInput = password.getText();

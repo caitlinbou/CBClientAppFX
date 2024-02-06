@@ -29,12 +29,12 @@
         </columns>
       </TableView>
       <Button alignment="CENTER" layoutX="865.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="26.0" prefWidth="58.0" text="Exit" />
-      <RadioButton layoutX="17.0" layoutY="32.0" mnemonicParsing="false" text="Weekly View">
+      <RadioButton fx:id="weekly" layoutX="17.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleSwitch" text="Weekly View">
          <toggleGroup>
             <ToggleGroup fx:id="View" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="123.0" layoutY="32.0" mnemonicParsing="false" text="Monthly View" toggleGroup="$View" />
+      <RadioButton fx:id="monthly" layoutX="123.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleSwitch" text="Monthly View" toggleGroup="$View" />
       <RadioButton layoutX="343.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
       <RadioButton layoutX="239.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
     </children>

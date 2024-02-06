@@ -9,16 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -42,13 +41,13 @@ public class ViewAppointmentsController implements Initializable {
     private TableColumn<Appointment, String> Description;
 
     @FXML
-    private TableColumn<Appointment, Time> EndDT;
+    private TableColumn<Appointment, LocalDateTime> EndDT;
 
     @FXML
     private TableColumn<Appointment, String> Location;
 
     @FXML
-    private TableColumn<Appointment, Time> StartDT;
+    private TableColumn<Appointment, LocalDateTime> StartDT;
 
     @FXML
     private TableColumn<Appointment, String> Title;
@@ -65,12 +64,10 @@ public class ViewAppointmentsController implements Initializable {
     @FXML
     private TableView<Appointment> appointmentTable;
 
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
         appointmentTable.setItems(apptList);
-     // System.out.println(apptList.get(0).getDescription());
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
         Contact.setCellValueFactory(new PropertyValueFactory<>("contactId"));
         CustID.setCellValueFactory(new PropertyValueFactory<>("custId"));
@@ -81,6 +78,40 @@ public class ViewAppointmentsController implements Initializable {
         Title.setCellValueFactory(new PropertyValueFactory<>("title"));
         Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         UserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
+    }
+
+    @FXML
+    private RadioButton monthly;
+
+    @FXML
+    private RadioButton weekly;
+
+    @FXML
+    void toggleSwitch(ActionEvent event) {
+        Toggle selectedToggle = View.getSelectedToggle();
+
+        if (selectedToggle != null) {
+            if (monthly.equals(selectedToggle)) {
+                stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+                try {
+                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/MonthlyView.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+            else if (weekly.equals(selectedToggle)) {
+                stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
+                try {
+                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/WeeklyView.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else System.out.println("Nothing happened");
+        }
     }
     @FXML
     void handleAddBtn(ActionEvent event) {

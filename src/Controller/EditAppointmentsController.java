@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 public class EditAppointmentsController {
     @FXML
@@ -22,13 +23,13 @@ public class EditAppointmentsController {
     private TextField customerIDtxt;
 
     @FXML
-    private Time end;
+    private LocalDateTime end;
 
     @FXML
     private TextField endTxt;
 
     @FXML
-    private Time start;
+    private LocalDateTime start;
 
     @FXML
     private TextField startTxt;
