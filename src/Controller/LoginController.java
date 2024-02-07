@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import static DAO.DBAppointments.getApptsByUser;
 
@@ -27,6 +28,9 @@ public class LoginController implements Initializable {
     Parent scene;
     @FXML
     private Label errorFeedback;
+
+    @FXML
+    private Label timeZone;
 
     @FXML
     private Label language;
@@ -39,6 +43,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        timeZone.setText(TimeZone.getDefault().getID());
         //TODO: Get help from professor on loading the resource bundle
         //TODO: Load proper TimeZone into view on login page...this is based on computer settings too?
         try {

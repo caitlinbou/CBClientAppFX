@@ -16,6 +16,44 @@ public class Appointment {
     private int userId;
 
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public void setCustId(int custId) {
+        this.custId = custId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setApptId( int apptId) {this.apptId = apptId;}
+
     public Appointment(int apptId, String title, String description, String location, int contactId, String type, LocalDateTime start, LocalDateTime end, int custId, int userId) {
         this.apptId = apptId;
         this.title = title;
@@ -30,8 +68,6 @@ public class Appointment {
     }
 
     public int getApptId() {return apptId;}
-
-    public void setApptId( int apptId) {this.apptId = apptId;}
 
     public String getTitle() {return title;}
 

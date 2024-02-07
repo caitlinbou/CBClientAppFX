@@ -37,5 +37,6 @@
       <RadioButton fx:id="monthly" layoutX="123.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleSwitch" text="Monthly View" toggleGroup="$View" />
       <RadioButton layoutX="343.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
       <RadioButton layoutX="239.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
+      <Button alignment="CENTER" layoutX="25.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleViewCustomers" prefHeight="26.0" prefWidth="196.0" text="View Customer Records" />
     </children>
 </AnchorPane>

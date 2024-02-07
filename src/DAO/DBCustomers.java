@@ -1,34 +1,40 @@
 package DAO;
 
+import Model.Appointment;
+import Model.Customer;
 import helper.JDBC;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class DBCustomers {
-    public static ObservableList<User> getAllUsers(){
+    public static ObservableList<Customer> getAllCustomers() {
 
-        ObservableList<User> userList = FXCollections.observableArrayList();
+        ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
-        try{
-            String sql = "SELECT * from users";
+        try {
+            String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID from customers";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
-                int userId = rs.getInt("User_ID");
-                String userName = rs.getString("User_Name");
-                String userPassword = rs.getString("Password");
-                User U = new User(userId, userName, userPassword);
-                userList.add(U);
+            while (rs.next()) {
+                int custId = rs.getInt("Customer_ID");
+                String custName = rs.getString("Customer_Name");
+                String custAddress = rs.getString("Address");
+                String custPostal= rs.getString("Postal_Code");
+                String custPhone = rs.getString("Phone");
+                int divId = rs.getInt("Division_ID");
+                Customer C = new Customer(custId, custName, custAddress, custPostal, custPhone, divId);
+                customerList.add(C);
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-        } return userList;
+        }
+        return customerList;
     }
-
 }

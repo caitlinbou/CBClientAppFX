@@ -139,6 +139,18 @@ public class ViewAppointmentsController implements Initializable {
     }
 
 
+    @FXML
+    void handleViewCustomers(ActionEvent event) {
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/ViewCustomers.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
 
     @FXML
     void handleUpdateBtn(ActionEvent event) throws IOException {

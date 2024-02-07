@@ -1,12 +1,15 @@
 package Controller;
 
 
+import Model.Contact;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -21,7 +24,7 @@ public class AddAppointmentsController {
     private TextField addApptId;
 
     @FXML
-    private TextField addContact;
+    private ComboBox<Contact> addContact;
 
     @FXML
     private TextField addCustId;
@@ -59,6 +62,7 @@ public class AddAppointmentsController {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
     @FXML
     void handleSubmit(ActionEvent event) {
         try {
@@ -66,7 +70,7 @@ public class AddAppointmentsController {
             String title = addTitle.getText();
             String type = addType.getText();
             String location = addLocation.getText();
-            int contact = Integer.parseInt(addContact.getText());
+         //   SingleSelectionModel <Contact> contact = addCustId.getSelectionModel();
             int userId = Integer.parseInt(addUserId.getText());
             int custId = Integer.parseInt(addCustId.getText());
           //  TODO: LocalDateTime Handling

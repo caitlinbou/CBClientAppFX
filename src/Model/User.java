@@ -5,6 +5,18 @@ public class User {
     private String name;
     private String password;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User(int id, String name, String password){
         this.id = id;
         this.name = name;
