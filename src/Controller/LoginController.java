@@ -39,6 +39,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TODO: Get help from professor on loading the resource bundle
+        //TODO: Load proper TimeZone into view on login page...this is based on computer settings too?
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
             if(Locale.getDefault().getLanguage().equals("fr")) {

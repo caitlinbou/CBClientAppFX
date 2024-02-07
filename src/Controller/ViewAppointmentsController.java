@@ -114,20 +114,16 @@ public class ViewAppointmentsController implements Initializable {
         }
     }
     @FXML
-    void handleAddBtn(ActionEvent event) {
+     void handleAddBtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/AddAppointments.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/AddAppointments.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
     @FXML
     void handleDeleteBtn(ActionEvent event) {
-
+        //TODO: Select item to delete and remove it from the appointments DB.
     }
 
     @FXML
@@ -146,12 +142,13 @@ public class ViewAppointmentsController implements Initializable {
 
     @FXML
     void handleUpdateBtn(ActionEvent event) throws IOException {
+        //TODO: properly select item and load it INTO the edit panel. Reference "MainForm" and "ModifyPart" controllers from SW1
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditAppointments.fxml")));
         loader.load();
         if (appointmentTable.getSelectionModel().getSelectedItem() != null) {
             EditAppointmentsController ModifyController = loader.getController();
-            ModifyController.sendAppointment((Appointment) appointmentTable.getSelectionModel().getSelectedItem());
+            ModifyController.sendAppointment(appointmentTable.getSelectionModel().getSelectedItem());
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();

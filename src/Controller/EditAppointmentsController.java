@@ -3,68 +3,105 @@ package Controller;
 import Model.Appointment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class EditAppointmentsController {
+
+    Stage stage;
+    Parent scene;
     @FXML
-    private int contactID;
+    private TextField editApptId;
 
     @FXML
-    private TextField contactIDtxt;
+    private TextField editContact;
 
     @FXML
-    private int customerID;
+    private TextField editDescription;
 
     @FXML
-    private TextField customerIDtxt;
+    private TextField editCustId;
 
     @FXML
-    private LocalDateTime end;
+    private TextField editEnd;
 
     @FXML
-    private TextField endTxt;
+    private TextField editLocation;
 
     @FXML
-    private LocalDateTime start;
+    private TextField editStart;
 
     @FXML
-    private TextField startTxt;
+    private TextField editTitle;
 
     @FXML
-    private String title;
+    private TextField editType;
 
     @FXML
-    private TextField titleTxt;
+    private TextField editUserId;
 
     @FXML
-    private String type;
+    void handleCancel(ActionEvent event) {
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/ViewAppointments.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
 
-    @FXML
-    private TextField typeTxt;
+
+    Appointment thisAppt;
+    int apptId, contactId, custId, userId;
+    String title, description, location, type;
+    LocalDateTime start, end;
 
     public void sendAppointment(Appointment appointment) throws IOException {
-        customerID = appointment.getCustId();
-        contactID = appointment.getContactId();
-        title = appointment.getTitle();
-        type = appointment.getType();
-        start = appointment.getStart();
-        end = appointment.getEnd();
-
-        customerIDtxt.setText(String.valueOf(customerID));
-        contactIDtxt.setText(String.valueOf(contactID));
-        titleTxt.setText(title);
-        typeTxt.setText(type);
+        thisAppt = appointment;
+        editApptId.setText(String.valueOf(thisAppt.getApptId()));
+        editCustId.setText(String.valueOf(thisAppt.getCustId()));
+        editContact.setText(String.valueOf(thisAppt.getContactId()));
+        editUserId.setText(String.valueOf(thisAppt.getUserId()));
+        editTitle.setText(thisAppt.getTitle());
+        editLocation.setText(thisAppt.getLocation());
+        editType.setText(thisAppt.getType());
+        editDescription.setText(thisAppt.getDescription());
+        editStart.setText(String.valueOf(thisAppt.getStart()));
+        editEnd.setText(String.valueOf(thisAppt.getEnd()));
 
     }
+    @FXML
+    void handleSubmit(ActionEvent event) throws IOException {
+        //TODO: Figure out how to get the edited information and pass to
+        apptId = Integer.parseInt(editApptId.getText());
+        title = editTitle.getText();
+        description = editDescription.getText();
+        type = editType.getText();
+        location = editLocation.getText();
+        contactId = Integer.parseInt(editContact.getText());
+        userId = Integer.parseInt(editUserId.getText());
+        custId = Integer.parseInt(editCustId.getText());
+        //  TODO: LocalDateTime Handling
+       // LocalDateTime start = LocalDateTime.parse(editStart.getText());
+        //LocalDateTime end = LocalDateTime.parse(editEnd.getText());
+        // TODO: load the information into the Appointments DB.
 
-    public void onClickSaveUpdate(ActionEvent actionEvent) {
-    }
-
-    public void onClickCancelUpdate(ActionEvent actionEvent) {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 }
 
