@@ -30,7 +30,7 @@ public class LoginController implements Initializable {
     private Label errorFeedback;
 
     @FXML
-    private Label timeZone;
+    private Label timeZoneLbl;
 
     @FXML
     private Label language;
@@ -41,20 +41,39 @@ public class LoginController implements Initializable {
     @FXML
     private TextField userName;
 
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Button btnLabel;
+
+    @FXML
+    private Label passLabel;
+
+    public String errorMessage = "I'm sorry, that is not a valid entry. Please re-enter your user name or password.";
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        timeZone.setText(TimeZone.getDefault().getID());
-        //TODO: Get help from professor on loading the resource bundle
+        //Get system time Zone
+        String tz = TimeZone.getDefault().getID();
+        //Get the time zone of the default time zone
+        TimeZone timeZone = TimeZone.getTimeZone(tz);
+        timeZoneLbl.setText(timeZone.getDisplayName());
+        language.setText("Hello!");
         //TODO: Load proper TimeZone into view on login page...this is based on computer settings too?
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
             if(Locale.getDefault().getLanguage().equals("fr")) {
-                language.setText("Canada");
-                System.out.println(rb.getString("hello" + " " + "userName"));
+                language.setText(rb.getString("hello"));
+                errorMessage = rb.getString("error");
+                nameLabel.setText(rb.getString("username"));
+                passLabel.setText(rb.getString("password"));
+                btnLabel.setText(rb.getString("submit"));
+
             }
 
         }catch (Exception e){
-            language.setText("United States");
+            language.setText("Hello!");
             System.out.println("Error:" + e.getMessage());
         };
     }
@@ -67,7 +86,7 @@ public class LoginController implements Initializable {
         try {
         for(User U : userList) {
             if ((!Objects.equals(U.getName(), nameInput)) || (!Objects.equals(U.getPassword(), passInput))) {
-                errorFeedback.setText("I'm sorry, that is not a valid entry. Please re-enter your user name or password.");
+                errorFeedback.setText(errorMessage);
             } else {
                 U.getId();
                 stage = (Stage) ((Button)event.getSource()).getScene().getWindow();

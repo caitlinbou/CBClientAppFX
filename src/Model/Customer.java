@@ -64,5 +64,9 @@ public class Customer {
         this.divId = divId;
     }
 
+    public String toString()  {
+        return this.custName;
+    }
+
 
 }
