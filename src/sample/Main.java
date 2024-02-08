@@ -1,6 +1,6 @@
 package sample;
 
-import helper.AppointmentsQuery;
+import DAO.DBAppointments;
 import helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Main extends Application {
 
@@ -46,7 +43,7 @@ public class Main extends Application {
         if(rowsAffected>0) System.out.println("Update Successful");
         else System.out.println("No Update");
         */
-        AppointmentsQuery.select(1);
+        DBAppointments.select(1);
         launch(args);
         //code goes HERE
         JDBC.closeConnection();

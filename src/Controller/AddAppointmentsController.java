@@ -1,7 +1,15 @@
 package Controller;
 
 
+import DAO.DBAppointments;
+import DAO.DBContacts;
+import DAO.DBCustomers;
+import DAO.DBUsers;
+import Model.Appointment;
 import Model.Contact;
+import Model.Customer;
+import Model.User;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,15 +19,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import javafx.fxml.Initializable;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class AddAppointmentsController {
+public class AddAppointmentsController implements Initializable{
     Stage stage;
     Parent scene;
+
     @FXML
     private TextField addApptId;
 
@@ -27,7 +39,7 @@ public class AddAppointmentsController {
     private ComboBox<Contact> addContact;
 
     @FXML
-    private TextField addCustId;
+    private ComboBox<Customer> addCustId;
 
     @FXML
     private TextField addEnd;
@@ -45,11 +57,25 @@ public class AddAppointmentsController {
     private TextField addType;
 
     @FXML
-    private TextField addUserId;
+    private ComboBox<User> addUserId;
 
     @FXML
     private static int currentId = 2;
     public static int nextId() {return ++currentId;}
+
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle){
+        ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
+        addCustId.setItems(customerList);
+        addCustId.setVisibleRowCount(5);
+        addCustId.setPromptText("Select Customer Name");
+        ObservableList<User> userList = DBUsers.getAllUsers();
+        addUserId.setItems(userList);
+        addUserId.setPromptText("Select Related User");
+        ObservableList<Contact> contactList = DBContacts.getAllContacts();
+        addContact.setItems(contactList);
+        addContact.setPromptText("Select Contact Name");
+    }
 
     @FXML
     void handleCancel(ActionEvent event) {
@@ -71,8 +97,8 @@ public class AddAppointmentsController {
             String type = addType.getText();
             String location = addLocation.getText();
          //   SingleSelectionModel <Contact> contact = addCustId.getSelectionModel();
-            int userId = Integer.parseInt(addUserId.getText());
-            int custId = Integer.parseInt(addCustId.getText());
+           // int userId = Integer.parseInt(addUserId.getText());
+          //  int custId = Integer.parseInt(addCustId.getText());
           //  TODO: LocalDateTime Handling
           //  LocalDateTime start = LocalDateTime.parse(addStart.getText());
           //  LocalDateTime end = LocalDateTime.parse(addEnd.getText());

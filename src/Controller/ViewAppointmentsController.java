@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -115,6 +116,7 @@ public class ViewAppointmentsController implements Initializable {
     }
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
+
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/AddAppointments.fxml")));
         stage.setScene(new Scene(scene));
@@ -153,7 +155,7 @@ public class ViewAppointmentsController implements Initializable {
 
 
     @FXML
-    void handleUpdateBtn(ActionEvent event) throws IOException {
+    void handleUpdateBtn(ActionEvent event) throws IOException, SQLException {
         //TODO: properly select item and load it INTO the edit panel. Reference "MainForm" and "ModifyPart" controllers from SW1
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditAppointments.fxml")));

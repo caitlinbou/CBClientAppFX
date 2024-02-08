@@ -1,7 +1,6 @@
 package Controller;
 
 import DAO.DBUsers;
-import Model.Appointment;
 import javafx.fxml.FXML;
 import Model.User;
 import javafx.collections.ObservableList;
@@ -20,8 +19,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-
-import static DAO.DBAppointments.getApptsByUser;
 
 public class LoginController implements Initializable {
     Stage stage;
@@ -60,7 +57,7 @@ public class LoginController implements Initializable {
         TimeZone timeZone = TimeZone.getTimeZone(tz);
         timeZoneLbl.setText(timeZone.getDisplayName());
         language.setText("Hello!");
-        //TODO: Load proper TimeZone into view on login page...this is based on computer settings too?
+
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
             if(Locale.getDefault().getLanguage().equals("fr")) {
@@ -69,7 +66,6 @@ public class LoginController implements Initializable {
                 nameLabel.setText(rb.getString("username"));
                 passLabel.setText(rb.getString("password"));
                 btnLabel.setText(rb.getString("submit"));
-
             }
 
         }catch (Exception e){

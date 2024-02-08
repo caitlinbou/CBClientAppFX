@@ -37,5 +37,7 @@ public class Division {
         this.countryId = countryId;
     }
 
-
+    public String toString()  {
+        return this.divName;
+    }
 }

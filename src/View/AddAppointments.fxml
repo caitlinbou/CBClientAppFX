@@ -30,8 +30,6 @@
         </rowConstraints>
          <children>
             <TextField fx:id="addApptId" editable="false" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
-            <TextField fx:id="addUserId" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField fx:id="addCustId" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <TextField fx:id="addEnd" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="addStart" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="addType" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -47,6 +45,8 @@
             <Label text="User_ID" GridPane.rowIndex="8" />
             <Label text="Title" GridPane.rowIndex="1" />
             <ComboBox fx:id="addContact" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="addCustId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ComboBox fx:id="addUserId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
       </GridPane>
       <Button layoutX="534.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
