@@ -1,5 +1,6 @@
 package sample;
 
+import helper.AppointmentsQuery;
 import helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -29,11 +32,21 @@ public class Main extends Application {
     public void stop() {
         System.out.println("Stopping");
     }
-    public static void main(String[] args) {
-
-
+    public static void main(String[] args) throws SQLException {
 
         JDBC.openConnection();
+
+      /*  Timestamp startTime = Timestamp.valueOf("2020-05-28 12:00:00");
+        Timestamp endTime = Timestamp.valueOf("2020-05-28 13:00:00");
+        int rowsAffected = AppointmentsQuery.update(1,"cool", "yes", "planning", "type", startTime, endTime,1, 1, 1);
+        if(rowsAffected>0) System.out.println("Update Successful");
+        else System.out.println("No Update");
+
+        int rowsAffected = AppointmentsQuery.delete(1);
+        if(rowsAffected>0) System.out.println("Update Successful");
+        else System.out.println("No Update");
+        */
+        AppointmentsQuery.select(1);
         launch(args);
         //code goes HERE
         JDBC.closeConnection();
