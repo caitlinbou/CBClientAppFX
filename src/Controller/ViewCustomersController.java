@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -65,6 +66,7 @@ public class ViewCustomersController implements Initializable {
         custName.setCellValueFactory(new PropertyValueFactory<>("custName"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("custPhone"));
         custPostal.setCellValueFactory(new PropertyValueFactory<>("custPostal"));
+        custFirstLevel.setCellValueFactory(new PropertyValueFactory<>("divId"));
     }
 
     @FXML
@@ -93,11 +95,20 @@ public class ViewCustomersController implements Initializable {
     }
 
     @FXML
-    void handleCustUpdateBtn(ActionEvent event) throws IOException {
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/EditCustomers.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
+    void handleCustUpdateBtn(ActionEvent event) throws IOException, SQLException {
+        //TODO: properly select item and load it INTO the edit panel. Reference "MainForm" and "ModifyPart" controllers from SW1
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditCustomers.fxml")));
+        loader.load();
+        if (customerTableView.getSelectionModel().getSelectedItem() != null) {
+            EditCustomersController ModifyController = loader.getController();
+            ModifyController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
 
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+    }
 }

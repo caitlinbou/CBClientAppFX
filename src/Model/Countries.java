@@ -20,4 +20,8 @@ public class Countries {
     public int getId() {return id;}
 
     public String getName() {return name;};
+
+    public String toString()  {
+        return this.name;
+    }
 }

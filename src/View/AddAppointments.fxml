@@ -29,7 +29,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="addApptId" editable="false" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
+            <TextField fx:id="addApptId" editable="false" focusTraversable="false" style="-fx-background-color: #f4f4f4; -fx-text-fill: gray;" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
             <TextField fx:id="addEnd" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="addStart" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="addType" GridPane.columnIndex="1" GridPane.rowIndex="4" />

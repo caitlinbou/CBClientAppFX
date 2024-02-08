@@ -13,7 +13,7 @@ public class DBCustomers {
         ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID from customers";
+            String sql = "SELECT * from customers";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
@@ -34,7 +34,7 @@ public class DBCustomers {
         }
         return customerList;
     }
-//TODO: isn't what i meant but can be edited
+
     public ObservableList<Customer> getCustomerById(int cId) throws SQLException {
         ObservableList<Customer> selectedCustomer = FXCollections.observableArrayList();
         try {
@@ -55,5 +55,41 @@ public class DBCustomers {
             throwable.printStackTrace();
         }
         return selectedCustomer;
+    }
+
+    public static int insert(String custName, String address, String postalCode, String Phone, int divId) throws SQLException {
+        String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, divId) VALUES(?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, custName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, Phone);
+        ps.setInt(5,divId);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static int update(int custId, String custName, String address, String postalCode, String phone, int divId) throws SQLException {
+        String sql = "UPDATE Customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, divId = ? WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ps.setString(1, custName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phone);
+        ps.setInt(5,divId);
+        ps.setInt(6,custId);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static int delete(int custId) throws SQLException {
+        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, custId);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
     }
 }

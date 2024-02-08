@@ -1,7 +1,11 @@
 package Controller;
 
-import Model.Appointment;
-import Model.Customer;
+import DAO.DBContacts;
+import DAO.DBCountries;
+import DAO.DBDivisions;
+import DAO.DBUsers;
+import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,7 +29,7 @@ public class EditCustomersController {
         private TextField editAddress;
 
         @FXML
-        private ComboBox<?> editCountry;
+        private ComboBox<Countries> editCountry;
 
         @FXML
         private TextField editCustId;
@@ -33,7 +38,7 @@ public class EditCustomersController {
         private TextField editCustName;
 
         @FXML
-        private ComboBox<?> editDiv;
+        private ComboBox<Division> editDiv;
 
         @FXML
         private TextField editPhone;
@@ -64,25 +69,33 @@ public class EditCustomersController {
         }
 
     Customer thisCust;
-    int custId;
-    //TODO: The carrot
-    SingleSelectionModel<?> divId;
-    String custName, custAddress, custPostal, custPhone;
+    int custId, divId;
+    String custName, custAddress, custPostal, country, custPhone;
 
-
-    public void sendAppointment(Customer customer) throws IOException {
+    public void sendCustomer(Customer customer) throws IOException, SQLException {
         thisCust = customer;
+        ObservableList<Division> selectedDivision = DBDivisions.getDivisionByDivId(thisCust.getDivId());
+        ObservableList<Division> divList = DBDivisions.getAllDivisions();
+        ObservableList<Countries> selectedCountry = DBCountries.getCountrybyDiv(thisCust.getDivId());
+        ObservableList<Countries> countryList = DBCountries.getAllCountries();
+
         editCustId.setText(String.valueOf(thisCust.getCustId()));
-        //editDiv.setSelectionModel(String.valueOf(thisCust.getDivId()));
         editCustName.setText(thisCust.getCustName());
         editAddress.setText(thisCust.getCustAddress());
         editPostal.setText(thisCust.getCustPostal());
+        editDiv.setItems(divList);
+        editDiv.setValue(selectedDivision.get(0));
+        editCountry.setItems(countryList);
+        //editCountry.setValue(selectedCountry.get(0));
+        editPhone.setText(thisCust.getCustPhone());
+
     }
+
         @FXML
         void handleSubmit(ActionEvent event) throws IOException {
 //TODO: Figure out how to get the edited information and pass to
             custId = Integer.parseInt(editCustId.getText());
-            divId = editDiv.getSelectionModel();
+          //  divId = editDiv.getSelectionModel();
             custName = editCustName.getText();
             custAddress = editAddress.getText();
             custPostal = editPostal.getText();

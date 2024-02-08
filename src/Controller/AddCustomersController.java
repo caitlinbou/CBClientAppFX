@@ -1,8 +1,12 @@
 package Controller;
 
+import DAO.*;
+import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,9 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class AddCustomersController {
+public class AddCustomersController implements Initializable {
     Stage stage;
     Parent scene;
 
@@ -21,7 +27,7 @@ public class AddCustomersController {
     private TextField editAddress;
 
     @FXML
-    private ComboBox<?> editCountry;
+    private ComboBox<Countries> editCountry;
 
     @FXML
     private TextField editCustId;
@@ -30,7 +36,7 @@ public class AddCustomersController {
     private TextField editCustName;
 
     @FXML
-    private ComboBox<?> editDiv;
+    private ComboBox<Division> editDiv;
 
     @FXML
     private TextField editPhone;
@@ -48,6 +54,18 @@ public class AddCustomersController {
 
     }
 
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle){
+        ObservableList<Countries> countryList = DBCountries.getAllCountries();
+        ObservableList<Division> divList = DBDivisions.getAllDivisions();
+        editCountry.setItems(countryList);
+        editCountry.setVisibleRowCount(5);
+        editCountry.setPromptText("Select Country");
+        editDiv.setItems(divList);
+        editDiv.setVisibleRowCount(5);
+        editDiv.setPromptText("Select Division");
+
+    }
     @FXML
     void handleCancel(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
