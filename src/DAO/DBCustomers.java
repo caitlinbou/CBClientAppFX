@@ -13,7 +13,10 @@ public class DBCustomers {
         ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT * from customers";
+            String sql =  "SELECT customers.*, first_level_divisions.Division, countries.Country, countries.Country_ID\n" +
+                    "FROM customers\n" +
+                    "JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID\n" +
+                    "JOIN countries ON first_level_divisions.Country_ID=countries.Country_ID;";
 
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
 
@@ -24,9 +27,12 @@ public class DBCustomers {
                 String custName = rs.getString("Customer_Name");
                 String custAddress = rs.getString("Address");
                 String custPostal = rs.getString("Postal_Code");
+                int custCountryId = rs.getInt("Country_ID");
+                String custDivision = rs.getString("Division");
+                String custCountry = rs.getString("Country");
                 String custPhone = rs.getString("Phone");
                 int divId = rs.getInt("Division_ID");
-                Customer C = new Customer(custId, custName, custAddress, custPostal, custPhone, divId);
+                Customer C = new Customer(custId, custName, custAddress, custPostal, custCountry, custCountryId, custDivision, custPhone, divId);
                 customerList.add(C);
             }
         } catch (SQLException throwable) {
@@ -35,7 +41,7 @@ public class DBCustomers {
         return customerList;
     }
 
-    public ObservableList<Customer> getCustomerById(int cId) throws SQLException {
+ /*   public ObservableList<Customer> getCustomerById(int cId) throws SQLException {
         ObservableList<Customer> selectedCustomer = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -56,7 +62,7 @@ public class DBCustomers {
         }
         return selectedCustomer;
     }
-
+*/
     public static int insert(String custName, String address, String postalCode, String Phone, int divId) throws SQLException {
         String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, divId) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

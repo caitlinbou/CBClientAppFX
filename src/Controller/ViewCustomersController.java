@@ -1,9 +1,14 @@
 package Controller;
 
 import DAO.DBAppointments;
+import DAO.DBCountries;
 import DAO.DBCustomers;
+import DAO.DBDivisions;
 import Model.Appointment;
+import Model.Countries;
 import Model.Customer;
+import Model.Division;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -29,14 +35,14 @@ public class ViewCustomersController implements Initializable {
     Stage stage;
     Parent scene;
 
+
     @FXML
     private TableView<Customer> customerTableView;
 
     @FXML
     private TableColumn<Customer, String> custAddress;
 
-    @FXML
-    private TableColumn<Customer, String> custCountry;
+    public TableColumn<Customer, String> custCountry;
 
     @FXML
     private TableColumn<Customer, String> custFirstLevel;
@@ -56,6 +62,8 @@ public class ViewCustomersController implements Initializable {
     @FXML
     private Label customMessage;
 
+
+
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         //TODO: Bring in division and country (DROP DOWN LIST FOR THE ADD/Modify)
@@ -66,7 +74,9 @@ public class ViewCustomersController implements Initializable {
         custName.setCellValueFactory(new PropertyValueFactory<>("custName"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("custPhone"));
         custPostal.setCellValueFactory(new PropertyValueFactory<>("custPostal"));
-        custFirstLevel.setCellValueFactory(new PropertyValueFactory<>("divId"));
+        custFirstLevel.setCellValueFactory(new PropertyValueFactory<>("custDivision"));
+        custCountry.setCellValueFactory(new PropertyValueFactory<>("custCountry"));
+
     }
 
     @FXML

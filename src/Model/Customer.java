@@ -5,15 +5,46 @@ public class Customer {
     private String custName;
     private String custAddress;
     private String custPostal;
+
+    public String getCustCountry() {
+        return custCountry;
+    }
+
+    public void setCustCountry(String custCountry) {
+        this.custCountry = custCountry;
+    }
+
+    public int getCustCountryID() {
+        return custCountryID;
+    }
+
+    public void setCustCountryID(int custCountryID) {
+        this.custCountryID = custCountryID;
+    }
+
+    public String getCustDivision() {
+        return custDivision;
+    }
+
+    public void setCustDivision(String custDivision) {
+        this.custDivision = custDivision;
+    }
+
+    private String custCountry;
+    private int custCountryID;
+    private String custDivision;
     private String custPhone;
     private int divId;
 
-    public Customer(int custId, String custName, String custAddress, String custPostal, String custPhone, int divId) {
+    public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
         this.custId = custId;
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPostal = custPostal;
+        this.custCountry = custCountry;
+        this.custCountryID = custCountryID;
         this.custPhone = custPhone;
+        this.custDivision = custDivision;
         this.divId = divId;
     }
     public int getCustId() {

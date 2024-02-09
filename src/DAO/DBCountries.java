@@ -32,14 +32,14 @@ public class DBCountries {
         return clist;
     }
 //TODO: FIXME there is no way to look up country by div...have to look up div by country....
-    public static ObservableList<Countries> getCountrybyDiv(int dId) throws SQLException {
+    public static ObservableList<Countries> getCountrybyId(int cId) throws SQLException {
 
         ObservableList<Countries> cListbyDiv = FXCollections.observableArrayList();
 
         try {
             String sql = "SELECT * from countries where Country_ID = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ps.setInt(1, dId);
+            ps.setInt(1, cId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

@@ -1,10 +1,8 @@
 package Controller;
 
-import DAO.DBContacts;
-import DAO.DBCountries;
-import DAO.DBDivisions;
-import DAO.DBUsers;
+import DAO.*;
 import Model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EditCustomersController {
     Stage stage;
@@ -45,14 +44,28 @@ public class EditCustomersController {
 
         @FXML
         private TextField editPostal;
-
+        ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
+        ObservableList<Countries> countryList = DBCountries.getAllCountries();
         @FXML
-        void countryCombo(ActionEvent event) {
-
+        void handleCountrySelected(ActionEvent event) {
+            //lambda to filter Div Combobox options based on country selected in country Combobox
+          //TODO error handling: when click on country combobox, selected division should dissapear.
+            Countries selectedCountry = editCountry.getValue();
+            ObservableList<Division> filteredDivisions = divisionList.stream()
+                    .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+            editDiv.setItems(filteredDivisions);
         }
 
         @FXML
-        void divisionCombo(ActionEvent event) {
+        void handleDivisionSelected(ActionEvent event) {
+/*
+            Division selectedDivision = editDiv.getValue();
+            ObservableList<Countries> filteredCountries = countryList.stream()
+                    .filter(Countries -> Objects.equals(Countries.getId(), selectedDivision.getCountryId()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+            editCountry.setItems(filteredCountries);
+            */
 
         }
 
@@ -69,15 +82,16 @@ public class EditCustomersController {
         }
 
     Customer thisCust;
-    int custId, divId;
-    String custName, custAddress, custPostal, country, custPhone;
+    int custId, divId, custCountryId;
+    String custName, custAddress, custPostal, custCountry, custDivision, custPhone;
 
     public void sendCustomer(Customer customer) throws IOException, SQLException {
         thisCust = customer;
         ObservableList<Division> selectedDivision = DBDivisions.getDivisionByDivId(thisCust.getDivId());
         ObservableList<Division> divList = DBDivisions.getAllDivisions();
-        ObservableList<Countries> selectedCountry = DBCountries.getCountrybyDiv(thisCust.getDivId());
+        ObservableList<Countries> selectedCountry = DBCountries.getCountrybyId(thisCust.getCustCountryID());
         ObservableList<Countries> countryList = DBCountries.getAllCountries();
+
 
         editCustId.setText(String.valueOf(thisCust.getCustId()));
         editCustName.setText(thisCust.getCustName());
@@ -86,7 +100,7 @@ public class EditCustomersController {
         editDiv.setItems(divList);
         editDiv.setValue(selectedDivision.get(0));
         editCountry.setItems(countryList);
-        //editCountry.setValue(selectedCountry.get(0));
+        editCountry.setValue(selectedCountry.get(0));
         editPhone.setText(thisCust.getCustPhone());
 
     }

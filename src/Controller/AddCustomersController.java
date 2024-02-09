@@ -45,12 +45,12 @@ public class AddCustomersController implements Initializable {
     private TextField editPostal;
 
     @FXML
-    void countryCombo(ActionEvent event) {
+    void handleCountrySelected(ActionEvent event) {
 
     }
 
     @FXML
-    void divisionCombo(ActionEvent event) {
+    void handleDivisionSelected(ActionEvent event) {
 
     }
 
