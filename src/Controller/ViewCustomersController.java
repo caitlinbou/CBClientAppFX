@@ -16,10 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -28,7 +25,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ViewCustomersController implements Initializable {
 
@@ -88,8 +87,32 @@ public class ViewCustomersController implements Initializable {
     }
 
     @FXML
-    void handleCustDeleteBtn(ActionEvent event) {
+    void handleCustDeleteBtn(ActionEvent event) throws SQLException {
   //TODO: Select item to delete and remove it from the customer DB.
+        Alert alert;
+        if ((customerTableView.getSelectionModel().getSelectedItem()) == null) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Select a Customer");
+            alert.showAndWait();
+        }else {
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
+                Customer customer = customerTableView.getSelectionModel().getSelectedItem();
+                ObservableList<Appointment> filteredAppointments = apptList.stream()
+                        .filter(Appointment -> Objects.equals(Appointment.getCustId(), customer.getCustId()))
+                        .collect(Collectors.toCollection(FXCollections::observableArrayList));
+                System.out.println(filteredAppointments);
+                if (!filteredAppointments.isEmpty()) {
+                    alert = new Alert(Alert.AlertType.CONFIRMATION, "You must delete all appointments associated with this customer first.");
+                    alert.showAndWait();
+                } else {
+                    DBCustomers.delete(customer.getCustId());
+                    ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
+                    customerTableView.setItems(customerList);
+                }
+            }
+        }
     }
 
     @FXML

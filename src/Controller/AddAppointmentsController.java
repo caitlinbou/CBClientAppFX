@@ -65,7 +65,7 @@ public class AddAppointmentsController implements Initializable{
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-        ObservableList<Customer> customerList = DBCustomers.getCustCountry();
+        ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
         addCustId.setItems(customerList);
         addCustId.setVisibleRowCount(5);
         addCustId.setPromptText("Select Customer Name");
