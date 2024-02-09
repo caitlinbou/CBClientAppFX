@@ -5,14 +5,24 @@ public class Customer {
     private String custName;
     private String custAddress;
     private String custPostal;
+    private String country;
     private String custPhone;
     private int divId;
 
-    public Customer(int custId, String custName, String custAddress, String custPostal, String custPhone, int divId) {
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Customer(int custId, String custName, String custAddress, String custPostal, String country, String custPhone, int divId) {
         this.custId = custId;
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPostal = custPostal;
+        this.country =country;
         this.custPhone = custPhone;
         this.divId = divId;
     }

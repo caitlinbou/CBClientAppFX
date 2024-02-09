@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 
 public class DBCustomers {
-    public static ObservableList<Customer> getAllCustomers() {
+  /*  public static ObservableList<Customer> getAllCustomers() {
 
         ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
@@ -34,8 +34,34 @@ public class DBCustomers {
         }
         return customerList;
     }
+*/
+    public static ObservableList<Customer> getCustCountry(){
+        ObservableList<Customer> customerList = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT customers.*, first_level_divisions.Division, countries.Country\n" +
+                    "FROM customers\n" +
+                    "JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID\n" +
+                    "JOIN countries ON first_level_divisions.Country_ID=countries.Country_ID;";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int custId = rs.getInt("Customer_ID");
+                String custName = rs.getString("Customer_Name");
+                String custAddress = rs.getString("Address");
+                String custPostal = rs.getString("Postal_Code");
+                String custCountry = rs.getString("Country");
+                String custPhone = rs.getString("Phone");
+                int divId = rs.getInt("Division_ID");
+                Customer c = new Customer(custId, custName, custAddress, custPostal, custCountry, custPhone, divId);
+                customerList.add(c);
+            }
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+        return customerList;
+    }
 
-    public ObservableList<Customer> getCustomerById(int cId) throws SQLException {
+  /*  public ObservableList<Customer> getCustomerById(int cId) throws SQLException {
         ObservableList<Customer> selectedCustomer = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -56,7 +82,7 @@ public class DBCustomers {
         }
         return selectedCustomer;
     }
-
+*/
     public static int insert(String custName, String address, String postalCode, String Phone, int divId) throws SQLException {
         String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, divId) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

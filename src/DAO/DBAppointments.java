@@ -9,6 +9,8 @@ import javafx.util.converter.LocalDateTimeStringConverter;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public abstract class DBAppointments {
     public static ObservableList<Appointment> getAllAppointments(){

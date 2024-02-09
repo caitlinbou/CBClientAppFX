@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
     @FXML
     private Label passLabel;
 
-    public String errorMessage = "I'm sorry, that is not a valid entry. Please re-enter your user name or password.";
+    public String errorMessage = "";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,20 +56,17 @@ public class LoginController implements Initializable {
         //Get the time zone of the default time zone
         TimeZone timeZone = TimeZone.getTimeZone(tz);
         timeZoneLbl.setText(timeZone.getDisplayName());
-        language.setText("Hello!");
+
 
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
-            if(Locale.getDefault().getLanguage().equals("fr")) {
                 language.setText(rb.getString("hello"));
                 errorMessage = rb.getString("error");
                 nameLabel.setText(rb.getString("username"));
                 passLabel.setText(rb.getString("password"));
                 btnLabel.setText(rb.getString("submit"));
-            }
 
         }catch (Exception e){
-            language.setText("Hello!");
             System.out.println("Error:" + e.getMessage());
         };
     }

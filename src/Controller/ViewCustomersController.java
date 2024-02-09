@@ -1,8 +1,10 @@
 package Controller;
 
 import DAO.DBAppointments;
+import DAO.DBCountries;
 import DAO.DBCustomers;
 import Model.Appointment;
+import Model.Countries;
 import Model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,13 +61,16 @@ public class ViewCustomersController implements Initializable {
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         //TODO: Bring in division and country (DROP DOWN LIST FOR THE ADD/Modify)
-        ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
+        ObservableList<Customer> customerList = DBCustomers.getCustCountry();
+        //OPTION or use Joins
+       // ObservableList<Countries> countryList = DBCountries.getAllCountries();
         customerTableView.setItems(customerList);
         custAddress.setCellValueFactory(new PropertyValueFactory<>("custAddress"));
         custId.setCellValueFactory(new PropertyValueFactory<>("custId"));
         custName.setCellValueFactory(new PropertyValueFactory<>("custName"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("custPhone"));
         custPostal.setCellValueFactory(new PropertyValueFactory<>("custPostal"));
+        custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         custFirstLevel.setCellValueFactory(new PropertyValueFactory<>("divId"));
     }
 
