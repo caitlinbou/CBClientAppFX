@@ -16,16 +16,16 @@
       <Button alignment="CENTER" layoutX="888.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleDeleteBtn" text="Delete" textAlignment="CENTER" />
       <TableView fx:id="appointmentTable" layoutX="11.0" layoutY="107.0" prefHeight="216.0" prefWidth="941.0">
         <columns>
-            <TableColumn fx:id="ApptID" prefWidth="95.0" text="Appointment_ID" />
-            <TableColumn fx:id="Title" prefWidth="95.0" text="Title" />
+            <TableColumn fx:id="ApptID" prefWidth="122.3999605178833" text="Appointment_ID" />
+            <TableColumn fx:id="Title" prefWidth="68.00003051757812" text="Title" />
             <TableColumn fx:id="Description" prefWidth="95.0" text="Description" />
-            <TableColumn fx:id="Location" minWidth="3.0" prefWidth="95.0" text="Location" />
-            <TableColumn fx:id="Contact" prefWidth="95.0" text="Contact" />
-            <TableColumn fx:id="Type" prefWidth="95.0" text="Type" />
-            <TableColumn fx:id="StartDT" prefWidth="95.0" text="Start Date and Time" />
-            <TableColumn fx:id="EndDT" prefWidth="95.0" text="End Date and Time" />
-            <TableColumn fx:id="CustID" prefWidth="95.0" text="Customer_ID" />
-            <TableColumn fx:id="UserID" prefWidth="95.0" text="User_ID" />
+            <TableColumn fx:id="Location" minWidth="3.0" prefWidth="75.20001220703125" text="Location" />
+            <TableColumn fx:id="Contact" prefWidth="76.79998779296875" text="Contact" />
+            <TableColumn fx:id="Type" prefWidth="61.60003662109375" text="Type" />
+            <TableColumn fx:id="StartDT" prefWidth="168.79998779296875" text="Start Date and Time" />
+            <TableColumn fx:id="EndDT" prefWidth="141.5999755859375" text="End Date and Time" />
+            <TableColumn fx:id="CustID" prefWidth="70.39990234375" text="Customer_ID" />
+            <TableColumn fx:id="UserID" prefWidth="74.400146484375" text="User_ID" />
         </columns>
       </TableView>
       <Button alignment="CENTER" layoutX="865.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="26.0" prefWidth="58.0" text="Exit" />

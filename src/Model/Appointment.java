@@ -2,6 +2,7 @@ package Model;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class Appointment {
     private int apptId;

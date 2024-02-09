@@ -35,11 +35,11 @@ public class Main extends Application {
 
       /*  Timestamp startTime = Timestamp.valueOf("2020-05-28 12:00:00");
         Timestamp endTime = Timestamp.valueOf("2020-05-28 13:00:00");
-        int rowsAffected = AppointmentsQuery.update(1,"cool", "yes", "planning", "type", startTime, endTime,1, 1, 1);
+        int rowsAffected = DBAppointments.update(1,"cool", "yes", "planning", "type", startTime, endTime,1, 1, 1);
         if(rowsAffected>0) System.out.println("Update Successful");
         else System.out.println("No Update");
 
-        int rowsAffected = AppointmentsQuery.delete(1);
+        int rowsAffected = DBAppointments.delete(1);
         if(rowsAffected>0) System.out.println("Update Successful");
         else System.out.println("No Update");
         */
