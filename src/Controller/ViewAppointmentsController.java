@@ -1,7 +1,10 @@
 package Controller;
 
 import DAO.DBAppointments;
+import DAO.DBCustomers;
 import Model.Appointment;
+import Model.Customer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +23,9 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 public class ViewAppointmentsController implements Initializable {
@@ -116,7 +121,7 @@ public class ViewAppointmentsController implements Initializable {
     }
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
-
+//TODO. See "EditCustomerController" for reference...that is done.
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/AddAppointments.fxml")));
         stage.setScene(new Scene(scene));
@@ -124,8 +129,21 @@ public class ViewAppointmentsController implements Initializable {
     }
 
     @FXML
-    void handleDeleteBtn(ActionEvent event) {
-        //TODO: Select item to delete and remove it from the appointments DB.
+    void handleDeleteBtn(ActionEvent event) throws SQLException {
+        Alert alert;
+        if ((appointmentTable.getSelectionModel().getSelectedItem()) == null) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Select an Appointment");
+            alert.showAndWait();
+        }else {
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                Appointment appointment = appointmentTable.getSelectionModel().getSelectedItem();
+                DBAppointments.delete(appointment.getApptId());
+                ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
+                appointmentTable.setItems(apptList);
+            }
+        }
     }
 
     @FXML

@@ -88,7 +88,6 @@ public class ViewCustomersController implements Initializable {
 
     @FXML
     void handleCustDeleteBtn(ActionEvent event) throws SQLException {
-  //TODO: Select item to delete and remove it from the customer DB.
         Alert alert;
         if ((customerTableView.getSelectionModel().getSelectedItem()) == null) {
             alert = new Alert(Alert.AlertType.CONFIRMATION, "Select a Customer");

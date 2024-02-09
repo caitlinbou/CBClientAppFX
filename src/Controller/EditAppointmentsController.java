@@ -103,7 +103,8 @@ public class EditAppointmentsController {
     }
     @FXML
     void handleSubmit(ActionEvent event) throws IOException {
-        //TODO: Figure out how to get the edited information and pass to
+        //TODO: Figure out how to get the edited information and pass to. Can reference EditCustomer (but not for the time part)
+
         apptId = Integer.parseInt(editApptId.getText());
         title = editTitle.getText();
         description = editDescription.getText();

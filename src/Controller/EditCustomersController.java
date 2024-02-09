@@ -106,7 +106,7 @@ public class EditCustomersController {
     }
 
         @FXML
-        void handleSubmit(ActionEvent event) throws IOException {
+        void handleSubmit(ActionEvent event) throws IOException, SQLException {
 //TODO: Figure out how to get the edited information and pass to
             custId = Integer.parseInt(editCustId.getText());
           //  divId = editDiv.getSelectionModel();
@@ -114,6 +114,10 @@ public class EditCustomersController {
             custAddress = editAddress.getText();
             custPostal = editPostal.getText();
             custPhone = editPhone.getText();
+            Division custDiv =  editDiv.getValue();
+            divId = custDiv.getDivId();
+
+            DBCustomers.update(custId, custName, custAddress, custPostal, custPhone, divId);
 
             // TODO: load the information into the Customer DB.
 

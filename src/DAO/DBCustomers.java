@@ -63,13 +63,13 @@ public class DBCustomers {
         return selectedCustomer;
     }
 */
-    public static int insert(String custName, String address, String postalCode, String Phone, int divId) throws SQLException {
-        String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, divId) VALUES(?, ?, ?, ?, ?)";
+    public static int insert(String custName, String address, String postalCode, String phone, int divId) throws SQLException {
+        String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, custName);
         ps.setString(2, address);
         ps.setString(3, postalCode);
-        ps.setString(4, Phone);
+        ps.setString(4, phone);
         ps.setInt(5,divId);
 
         int rowsAffected = ps.executeUpdate();
@@ -77,7 +77,7 @@ public class DBCustomers {
     }
 
     public static int update(int custId, String custName, String address, String postalCode, String phone, int divId) throws SQLException {
-        String sql = "UPDATE Customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, divId = ? WHERE Customer_ID = ?";
+        String sql = "UPDATE Customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
         ps.setString(1, custName);

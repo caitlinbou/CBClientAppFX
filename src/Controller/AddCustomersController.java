@@ -2,6 +2,7 @@ package Controller;
 
 import DAO.*;
 import Model.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +17,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AddCustomersController implements Initializable {
     Stage stage;
@@ -44,8 +47,15 @@ public class AddCustomersController implements Initializable {
     @FXML
     private TextField editPostal;
 
+    ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
+    ObservableList<Countries> countryList = DBCountries.getAllCountries();
     @FXML
     void handleCountrySelected(ActionEvent event) {
+        Countries selectedCountry = editCountry.getValue();
+        ObservableList<Division> filteredDivisions = divisionList.stream()
+                .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        editDiv.setItems(filteredDivisions);
 
     }
 
@@ -79,8 +89,19 @@ public class AddCustomersController implements Initializable {
     }
 
     @FXML
-    void handleSubmit(ActionEvent event) {
+    void handleSubmit(ActionEvent event) throws SQLException, IOException {
+        String custName = editCustName.getText();
+        String address = editAddress.getText();
+        String postalCode = editPostal.getText();
+        String phone = editPhone.getText();
+        Division custDiv =  editDiv.getValue();
+        int divId = custDiv.getDivId();
+        DBCustomers.insert(custName, address, postalCode, phone, divId);
 
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
 }

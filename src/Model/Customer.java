@@ -5,7 +5,23 @@ public class Customer {
     private String custName;
     private String custAddress;
     private String custPostal;
+    private String custCountry;
+    private int custCountryID;
+    private String custDivision;
+    private String custPhone;
+    private int divId;
 
+    public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
+        this.custId = custId;
+        this.custName = custName;
+        this.custAddress = custAddress;
+        this.custPostal = custPostal;
+        this.custCountry = custCountry;
+        this.custCountryID = custCountryID;
+        this.custPhone = custPhone;
+        this.custDivision = custDivision;
+        this.divId = divId;
+    }
     public String getCustCountry() {
         return custCountry;
     }
@@ -30,23 +46,7 @@ public class Customer {
         this.custDivision = custDivision;
     }
 
-    private String custCountry;
-    private int custCountryID;
-    private String custDivision;
-    private String custPhone;
-    private int divId;
 
-    public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
-        this.custId = custId;
-        this.custName = custName;
-        this.custAddress = custAddress;
-        this.custPostal = custPostal;
-        this.custCountry = custCountry;
-        this.custCountryID = custCountryID;
-        this.custPhone = custPhone;
-        this.custDivision = custDivision;
-        this.divId = divId;
-    }
     public int getCustId() {
         return custId;
     }
