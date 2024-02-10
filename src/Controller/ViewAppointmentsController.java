@@ -124,7 +124,6 @@ public class ViewAppointmentsController implements Initializable {
         return filteredApptList;
     }
 
-
     private ObservableList<Appointment> filterAppointmentsMonth () {
         LocalDateTime today = LocalDateTime.now();
 
@@ -151,42 +150,7 @@ public class ViewAppointmentsController implements Initializable {
             return apptList;
         }
     }
-    //TODO: DELETE
-  /*  @FXML
-    private RadioButton monthly;
 
-    @FXML
-    private RadioButton weekly;
-
-    @FXML
-    void toggleSwitch(ActionEvent event) {
-        Toggle selectedToggle = View.getSelectedToggle();
-
-        if (selectedToggle != null) {
-            if (monthly.equals(selectedToggle)) {
-                stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
-                try {
-                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/MonthlyView.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setScene(new Scene(scene));
-                stage.show();
-            }
-            else if (weekly.equals(selectedToggle)) {
-                stage = (Stage) ((RadioButton) event.getSource()).getScene().getWindow();
-                try {
-                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/WeeklyView.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setScene(new Scene(scene));
-                stage.show();
-            } else System.out.println("Nothing happened");
-        }
-    }
-
-  */
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
 //TODO. See "EditCustomerController" for reference...that is done.
@@ -243,7 +207,6 @@ public class ViewAppointmentsController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
 
     @FXML
     void handleUpdateBtn(ActionEvent event) throws IOException, SQLException {
