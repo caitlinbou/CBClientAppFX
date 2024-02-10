@@ -51,6 +51,7 @@ public class AddCustomersController implements Initializable {
     ObservableList<Countries> countryList = DBCountries.getAllCountries();
     @FXML
     void handleCountrySelected(ActionEvent event) {
+        editDiv.setDisable(false);
         Countries selectedCountry = editCountry.getValue();
         ObservableList<Division> filteredDivisions = divisionList.stream()
                 .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))

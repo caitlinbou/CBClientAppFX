@@ -3,7 +3,9 @@ package Controller;
 import DAO.DBAppointments;
 import DAO.DBCustomers;
 import Model.Appointment;
+import Model.Countries;
 import Model.Customer;
+import Model.Division;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,7 +22,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,8 +35,6 @@ import java.util.stream.Collectors;
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
-
-
 
     @FXML
     private TableColumn<Appointment, Integer> ApptID;
@@ -65,13 +67,30 @@ public class ViewAppointmentsController implements Initializable {
     private TableColumn<Appointment, Integer> UserID;
 
     @FXML
-    private ToggleGroup View;
+    private ComboBox<String> viewComboBox;
+
+    @FXML
+    void handleViewSelection(ActionEvent event) {
+        String comboOption = viewComboBox.getValue();
+        if (comboOption != null) {
+            ObservableList<Appointment> filteredAppts = filterAppointments(comboOption);
+            System.out.println(filteredAppts);
+        }
+
+    }
+
+    ObservableList<String> options = FXCollections.observableArrayList(
+            "All Appointments",
+            "Current Month Appointments",
+            "Current Week Appointments"
+    );
 
     @FXML
     private TableView<Appointment> appointmentTable;
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
+        viewComboBox.setItems(options);
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
         appointmentTable.setItems(apptList);
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
@@ -86,7 +105,54 @@ public class ViewAppointmentsController implements Initializable {
         UserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
-    @FXML
+
+    private ObservableList<Appointment> filterAppointmentsWeek () {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDateTime endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+
+        for (Appointment appointment : appointmentList) {
+            LocalDateTime appointmentDateTime = appointment.getStart();
+            if (!appointmentDateTime.isBefore(startOfWeek) && !appointmentDateTime.isAfter(endOfWeek)) {
+                filteredApptList.add(appointment);
+            }
+        }
+        appointmentTable.setItems(filteredApptList);
+        return filteredApptList;
+    }
+
+
+    private ObservableList<Appointment> filterAppointmentsMonth () {
+        LocalDateTime today = LocalDateTime.now();
+
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+        //TODO getSelection model to know which combobox option is selected and then
+        //TODO: check in the for loop for the month of the start LocalDateTime. Compare to SystemDefault date. If current month, then add to list.
+
+        for (Appointment appointment : appointmentList) {
+            if (appointment.getStart().getMonth() == today.getMonth())
+                filteredApptList.add(appointment);
+            }
+        appointmentTable.setItems(filteredApptList);
+        return filteredApptList;
+        }
+    private ObservableList<Appointment> filterAppointments(String comboOption) {
+        if (comboOption.equals("Current Month Appointments")) {
+            return filterAppointmentsMonth();
+        } else if (comboOption.equals("Current Week Appointments")) {
+            return filterAppointmentsWeek();
+        } else {
+            ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
+            appointmentTable.setItems(apptList);
+            return apptList;
+        }
+    }
+    //TODO: DELETE
+  /*  @FXML
     private RadioButton monthly;
 
     @FXML
@@ -119,6 +185,8 @@ public class ViewAppointmentsController implements Initializable {
             } else System.out.println("Nothing happened");
         }
     }
+
+  */
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
 //TODO. See "EditCustomerController" for reference...that is done.
@@ -139,6 +207,11 @@ public class ViewAppointmentsController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
                 Appointment appointment = appointmentTable.getSelectionModel().getSelectedItem();
+                int alertApptId = appointment.getApptId();
+                String alertApptType = appointment.getType();;
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("You have successfully deleted Appointment: " + alertApptId + "of the type " + alertApptType);
+                alert.showAndWait();
                 DBAppointments.delete(appointment.getApptId());
                 ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
                 appointmentTable.setItems(apptList);

@@ -93,7 +93,7 @@ public class ViewCustomersController implements Initializable {
             alert = new Alert(Alert.AlertType.CONFIRMATION, "Select a Customer");
             alert.showAndWait();
         }else {
-            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete?");
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete this customer record. All appointments related to this customer will also be deleted?");
             Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
                 ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
@@ -102,14 +102,11 @@ public class ViewCustomersController implements Initializable {
                         .filter(Appointment -> Objects.equals(Appointment.getCustId(), customer.getCustId()))
                         .collect(Collectors.toCollection(FXCollections::observableArrayList));
                 System.out.println(filteredAppointments);
-                if (!filteredAppointments.isEmpty()) {
-                    alert = new Alert(Alert.AlertType.CONFIRMATION, "You must delete all appointments associated with this customer first.");
-                    alert.showAndWait();
-                } else {
-                    DBCustomers.delete(customer.getCustId());
-                    ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
-                    customerTableView.setItems(customerList);
-                }
+                //TODO go to DBAPPOINTMENTS do DBAPPTS.deleteCustAppts
+                DBAppointments.delete(customer.getCustId());
+                DBCustomers.delete(customer.getCustId());
+                ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
+                customerTableView.setItems(customerList);
             }
         }
     }
