@@ -1,6 +1,8 @@
 package Controller;
 
 import DAO.DBUsers;
+import Model.LoginAttempt;
+import helper.Logins;
 import javafx.fxml.FXML;
 import Model.User;
 import javafx.collections.ObservableList;
@@ -15,12 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-public class LoginController implements Initializable {
+public class LoginController<userList> implements Initializable {
     Stage stage;
     Parent scene;
     @FXML
@@ -70,28 +73,38 @@ public class LoginController implements Initializable {
             System.out.println("Error:" + e.getMessage());
         };
     }
+
+
     @FXML
     private void handleButtonAction (ActionEvent event){
-
+        boolean outcome = false;
+        LocalDateTime timeStamp;
         ObservableList<User> userList = DBUsers.getAllUsers();
         String nameInput = userName.getText();
         String passInput = password.getText();
-        try {
-        for(User U : userList) {
-            if ((!Objects.equals(U.getName(), nameInput)) || (!Objects.equals(U.getPassword(), passInput))) {
-                errorFeedback.setText(errorMessage);
-            } else {
-                U.getId();
-                stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/ViewAppointments.fxml")));
-                stage.setScene(new Scene(scene));
-                stage.show();
-                System.out.println("User ID: " + U.getId() + " User Name : " + U.getName() + " User Password : " + U.getPassword());
-            }
+      try{  for (User U : userList) {
+            if (Objects.equals(U.getName(), nameInput) && Objects.equals(U.getPassword(), passInput)) {
+                outcome = true;
+                break;
+            }else outcome = false;
         }
+        timeStamp = LocalDateTime.now();
+        LoginAttempt attempt;
+        if (outcome) {
+            attempt = new LoginAttempt(true, timeStamp);
+            stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/ViewAppointments.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }else{
+            attempt = new LoginAttempt(false, timeStamp);
+            errorFeedback.setText(errorMessage);
+        }
+        Logins.writeLoginAttempt(attempt);
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
 
     }
+
 }
