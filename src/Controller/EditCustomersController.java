@@ -119,8 +119,6 @@ public class EditCustomersController {
 
             DBCustomers.update(custId, custName, custAddress, custPostal, custPhone, divId);
 
-            // TODO: load the information into the Customer DB.
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
             stage.setScene(new Scene(scene));

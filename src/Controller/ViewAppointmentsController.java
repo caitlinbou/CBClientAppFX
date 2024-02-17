@@ -22,8 +22,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 import java.util.Objects;
@@ -104,6 +107,7 @@ public class ViewAppointmentsController implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         UserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
+
 
 
     private ObservableList<Appointment> filterAppointmentsWeek () {

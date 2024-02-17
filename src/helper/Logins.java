@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Logins {
 
+
     public static void writeLoginAttempt(LoginAttempt loginAttempt) {
         String fileName = "login_activity.txt";
         String content = loginAttempt.getTimeStamp().toString() + " LoginSuccessful?: " + loginAttempt.isOutcome() + "\n";

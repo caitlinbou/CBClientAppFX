@@ -1,5 +1,6 @@
 package Controller;
 
+import DAO.DBAppointments;
 import DAO.DBContacts;
 import DAO.DBCustomers;
 import DAO.DBUsers;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -22,7 +24,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class EditAppointmentsController {
@@ -42,13 +47,19 @@ public class EditAppointmentsController {
     private TextField editDescription;
 
     @FXML
-    private TextField editEnd;
+    private DatePicker editStartDate;
+
+    @FXML
+    private TextField editStartTime;
 
     @FXML
     private TextField editLocation;
 
     @FXML
-    private TextField editStart;
+    private DatePicker editEndDate;
+
+    @FXML
+    private TextField editEndTime;
 
     @FXML
     private TextField editTitle;
@@ -59,7 +70,15 @@ public class EditAppointmentsController {
     @FXML
     private ComboBox<User> editUserId;
 
+    @FXML
+    void handleEndDate(ActionEvent event) {
 
+    }
+
+    @FXML
+    void handleStartDate(ActionEvent event) {
+
+    }
 
     @FXML
     void handleCancel(ActionEvent event) {
@@ -77,7 +96,8 @@ public class EditAppointmentsController {
     Appointment thisAppt;
     int apptId, contactId, custId, userId;
     String title, description, location, type;
-    LocalDateTime start, end;
+    Timestamp start;
+    Timestamp end;
 
     public void sendAppointment(Appointment appointment) throws IOException, SQLException {
         thisAppt = appointment;
@@ -85,7 +105,6 @@ public class EditAppointmentsController {
         ObservableList<Contact> contactList = DBContacts.getAllContacts();
         ObservableList<User> selectedUser = DBUsers.getUserById(thisAppt.getUserId());
         ObservableList<User> userList = DBUsers.getAllUsers();
-        System.out.println(userList);
 
         editApptId.setText(String.valueOf(thisAppt.getApptId()));
         editCustId.setText(String.valueOf(thisAppt.getCustId()));
@@ -97,27 +116,41 @@ public class EditAppointmentsController {
         editLocation.setText(thisAppt.getLocation());
         editType.setText(thisAppt.getType());
         editDescription.setText(thisAppt.getDescription());
-        editStart.setText(String.valueOf(thisAppt.getStart()));
-        editEnd.setText(String.valueOf(thisAppt.getEnd()));
+        LocalDateTime start = thisAppt.getStart();
+        LocalTime startTime = start.toLocalTime();
+        LocalDate startDate = start.toLocalDate();
+        editStartTime.setText(String.valueOf(startTime));
+        editStartDate.setValue(startDate);
+        LocalDateTime end = thisAppt.getEnd();
+        LocalTime endTime = end.toLocalTime();
+        LocalDate endDate = end.toLocalDate();
+        editEndTime.setText(String.valueOf(endTime));
+        editEndDate.setValue(endDate);
 
     }
     @FXML
-    void handleSubmit(ActionEvent event) throws IOException {
-        //TODO: Figure out how to get the edited information and pass to. Can reference EditCustomer (but not for the time part)
-
+    void handleSubmit(ActionEvent event) throws IOException, SQLException {
         apptId = Integer.parseInt(editApptId.getText());
         title = editTitle.getText();
         description = editDescription.getText();
         type = editType.getText();
         location = editLocation.getText();
-     //   contactId = Integer.parseInt(editContact.getText());
-       // userId = Integer.parseInt(editUserId.getText());
-     //   custId = Integer.parseInt(editCustId.getText());
-        //  TODO: LocalDateTime Handling
-       // LocalDateTime start = LocalDateTime.parse(editStart.getText());
-        //LocalDateTime end = LocalDateTime.parse(editEnd.getText());
-        // TODO: load the information into the Appointments DB.
-
+        contactId = editContact.getValue().getContactId();
+        userId = editUserId.getValue().getId();
+        custId = Integer.parseInt(editCustId.getText());
+        String startTimeText = editStartTime.getText();
+        String startDateText = editStartDate.getValue().toString();
+        LocalDate startDate = LocalDate.parse(startDateText);
+        LocalTime startTime = LocalTime.parse(startTimeText);
+        LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
+        String endTimeText = editEndTime.getText();
+        String endDateText = editEndDate.getValue().toString();
+        LocalDate endDate = LocalDate.parse(endDateText);
+        LocalTime endTime = LocalTime.parse(endTimeText);
+        LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
+        start = Timestamp.valueOf(startDateTime);
+        end = Timestamp.valueOf(endDateTime);
+        DBAppointments.update(apptId, title, description, location, type, start, end, custId, userId, contactId);
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));
         stage.setScene(new Scene(scene));
