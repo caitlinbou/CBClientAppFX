@@ -6,6 +6,7 @@ import Model.Appointment;
 import Model.Countries;
 import Model.Customer;
 import Model.Division;
+import helper.Reports;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +39,18 @@ import java.util.stream.Collectors;
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
+
+    @FXML
+    private TextField apptsByMonth;
+
+    @FXML
+    private TextField apptsByType;
+
+    @FXML
+    private TextField contactFilter;
+
+    @FXML
+    private TextField userFilter;
 
     @FXML
     private TableColumn<Appointment, Integer> ApptID;
@@ -82,6 +95,8 @@ public class ViewAppointmentsController implements Initializable {
 
     }
 
+
+
     ObservableList<String> options = FXCollections.observableArrayList(
             "All Appointments",
             "Current Month Appointments",
@@ -95,6 +110,10 @@ public class ViewAppointmentsController implements Initializable {
     public void initialize (URL url, ResourceBundle resourceBundle){
         viewComboBox.setItems(options);
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
+        apptsByMonth.setText(Reports.apptsByMonth(apptList).toString());
+        apptsByType.setText(Reports.apptsByType(apptList).toString());
+        Reports.apptsByCustomer(apptList);
+        Reports.apptsByContact(apptList);
         appointmentTable.setItems(apptList);
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
         Contact.setCellValueFactory(new PropertyValueFactory<>("contactId"));
@@ -107,8 +126,53 @@ public class ViewAppointmentsController implements Initializable {
         Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         UserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
+    //Filters all appointments by a user input contact ID and returns results on the appointmentTable to meet the contact report requirements of 3f
+    @FXML
+    void handleContactSearch(ActionEvent event) {
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+            for (Appointment appointment : appointmentList) {
+                Integer inputContact = Integer.parseInt(contactFilter.getText());
+                if (inputContact == appointment.getContactId()) {
+                    filteredApptList.add(appointment);
+                }
+            }
+            if (contactFilter.getText() == "" || filteredApptList.isEmpty()) {
+                Alert alert;
+                alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
+                alert.showAndWait();
+                appointmentTable.setItems(appointmentList);
+                contactFilter.clear();
+            }
+            else {
+                appointmentTable.setItems(filteredApptList);
+                contactFilter.clear();
+            }
 
-
+    }
+    //Filters all appointments by a user input User ID and returns results on the appointmentTable to meet the "additional report"  requirements of 3f
+    @FXML
+    void handleUserSearch(ActionEvent event) {
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+        for (Appointment appointment : appointmentList) {
+            Integer inputUser = Integer.parseInt(userFilter.getText());
+            if (inputUser == appointment.getUserId()) {
+                filteredApptList.add(appointment);
+            }
+        }
+        if (userFilter.getText() == "" || filteredApptList.isEmpty()) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
+            alert.showAndWait();
+            appointmentTable.setItems(appointmentList);
+            userFilter.clear();
+        }
+        else {
+            appointmentTable.setItems(filteredApptList);
+            userFilter.clear();
+        }
+    }
 
     private ObservableList<Appointment> filterAppointmentsWeek () {
         LocalDateTime today = LocalDateTime.now();
