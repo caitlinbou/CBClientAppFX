@@ -3,7 +3,6 @@ package Controller;
 import DAO.DBAppointments;
 import Model.Appointment;
 import Model.Count;
-import helper.Reports;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,10 +68,10 @@ public class ViewAppointmentsController implements Initializable {
     private ComboBox<String> viewComboBox;
 
     @FXML
-    private TableColumn<Appointment, Integer> countReport;
+    private TableColumn<Count, Integer> countReport;
 
     @FXML
-    private TableColumn<Appointment, String> monthReport;
+    private TableColumn<Count, String> monthReport;
 
     @FXML
     private TableView<Count> reportTable;
@@ -83,10 +82,6 @@ public class ViewAppointmentsController implements Initializable {
     @FXML
     private TableView<Appointment> appointmentTable;
 
-    @FXML
-    void handleTypeSelection(ActionEvent event) {
-
-    }
 
     @FXML
     void handleViewSelection(ActionEvent event) {
