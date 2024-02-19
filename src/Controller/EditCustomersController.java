@@ -42,8 +42,6 @@ public class EditCustomersController {
         @FXML
         private TextField editPostal;
         ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
-        ObservableList<Countries> countryList = DBCountries.getAllCountries();
-
     /**
      * This function filters the Div combobox based on the country selected in the country combobox. It uses the filter lambda available to the ObservableList object
      * to create a list of available divisions based on the country selected. This is one of the two required usages of a lambda function.
