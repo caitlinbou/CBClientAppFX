@@ -2,15 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="590.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ViewAppointmentsController">
-    <children>
+<AnchorPane prefHeight="590.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ViewAppointmentsController">
         <HBox layoutX="105.0" layoutY="124.0" prefHeight="91.0" prefWidth="423.0" />
               <Button alignment="CENTER" contentDisplay="CENTER" layoutX="742.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="25.0" prefWidth="50.0" text="Add" textAlignment="CENTER" />
       <Button alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="802.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleUpdateBtn" prefHeight="25.0" prefWidth="78.0" text="Update" />
@@ -34,9 +32,11 @@
       <ComboBox fx:id="viewComboBox" layoutX="30.0" layoutY="23.0" onAction="#handleViewSelection" prefWidth="150.0" promptText="Select View" />
       <TextField fx:id="contactFilter" layoutX="232.0" layoutY="23.0" onAction="#handleContactSearch" promptText="Search by Contact ID" />
       <TextField fx:id="userFilter" layoutX="431.0" layoutY="23.0" onAction="#handleUserSearch" promptText="Search by User ID" />
-      <TextField fx:id="apptsByMonth" layoutX="14.0" layoutY="494.0" prefHeight="26.0" prefWidth="924.0" />
-      <TextField fx:id="apptsByType" layoutX="14.0" layoutY="432.0" prefHeight="26.0" prefWidth="924.0" />
-      <Label layoutX="17.0" layoutY="403.0" text="Count of Appointments by Type:" />
-      <Label layoutX="16.0" layoutY="467.0" text="Count of Appointments by Month:" />
-    </children>
+      <TableView fx:id="reportTable" layoutX="360.0" layoutY="376.0" prefHeight="200.0" prefWidth="338.0">
+        <columns>
+          <TableColumn fx:id="typeReport" prefWidth="105.0" text="Type" />
+          <TableColumn fx:id="monthReport" prefWidth="116.0" text="Month" />
+            <TableColumn fx:id="countReport" prefWidth="116.0" text="Count" />
+        </columns>
+      </TableView>
 </AnchorPane>

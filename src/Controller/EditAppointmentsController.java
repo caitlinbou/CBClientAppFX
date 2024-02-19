@@ -2,11 +2,9 @@ package Controller;
 
 import DAO.DBAppointments;
 import DAO.DBContacts;
-import DAO.DBCustomers;
 import DAO.DBUsers;
 import Model.Appointment;
 import Model.Contact;
-import Model.Customer;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -96,7 +91,7 @@ public class EditAppointmentsController {
     Timestamp start;
     Timestamp end;
 
-    public void sendAppointment(Appointment appointment) throws IOException, SQLException {
+    public void sendAppointment(Appointment appointment) {
         thisAppt = appointment;
         ObservableList<Contact> selectedContact = DBContacts.getContactById(thisAppt.getContactId());
         ObservableList<Contact> contactList = DBContacts.getAllContacts();
@@ -124,7 +119,7 @@ public class EditAppointmentsController {
         editEndTime.setText(String.valueOf(endTime));
         editEndDate.setValue(endDate);
     }
-    private boolean overlap(LocalDateTime startDateTime, int custID){
+    private boolean overlap(LocalDateTime startDateTime, int custID, int apptId){
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> concurrent = FXCollections.observableArrayList();
@@ -133,7 +128,7 @@ public class EditAppointmentsController {
             LocalDateTime apptDateTime = A.getStart();
             int apptCustID = A.getCustId();
             int timeCompare = apptDateTime.compareTo(startDateTime);
-            if (timeCompare == 0 && apptCustID == custID) {
+            if (timeCompare == 0 && apptCustID == custID && A.getApptId()!=apptId) {
                 alert = new Alert(Alert.AlertType.WARNING, "This customer already has an Appointment scheduled for that time");
                 alert.showAndWait();
                 concurrent.add(A);
@@ -175,7 +170,7 @@ public class EditAppointmentsController {
             Alert alert;
             if (startTime.isAfter(startTimeLocalTime) && (startTime.isBefore(endTimeLocalTime))) {
                 int timeCheck = start.compareTo(end);
-                if (timeCheck < 0 && !overlap(startDateTime, custId)) {
+                if (timeCheck < 0 && !overlap(startDateTime, custId, apptId)) {
                     DBAppointments.update(apptId, title, description, location, type, start, end, custId, userId, contactId);
                     stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));

@@ -2,6 +2,7 @@ package Controller;
 
 import DAO.DBAppointments;
 import Model.Appointment;
+import Model.Count;
 import helper.Reports;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,12 +28,6 @@ import java.util.ResourceBundle;
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
-
-    @FXML
-    private TextField apptsByMonth;
-
-    @FXML
-    private TextField apptsByType;
 
     @FXML
     private TextField contactFilter;
@@ -74,6 +69,26 @@ public class ViewAppointmentsController implements Initializable {
     private ComboBox<String> viewComboBox;
 
     @FXML
+    private TableColumn<Appointment, Integer> countReport;
+
+    @FXML
+    private TableColumn<Appointment, String> monthReport;
+
+    @FXML
+    private TableView<Count> reportTable;
+
+    @FXML
+    private TableColumn<Appointment, String> typeReport;
+
+    @FXML
+    private TableView<Appointment> appointmentTable;
+
+    @FXML
+    void handleTypeSelection(ActionEvent event) {
+
+    }
+
+    @FXML
     void handleViewSelection(ActionEvent event) {
         String comboOption = viewComboBox.getValue();
         if (comboOption != null) {
@@ -88,15 +103,10 @@ public class ViewAppointmentsController implements Initializable {
             "Current Week Appointments"
     );
 
-    @FXML
-    private TableView<Appointment> appointmentTable;
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         viewComboBox.setItems(options);
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
-        apptsByMonth.setText(Reports.apptsByMonth(apptList).toString());
-        apptsByType.setText(Reports.apptsByType(apptList).toString());
         appointmentTable.setItems(apptList);
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
         Contact.setCellValueFactory(new PropertyValueFactory<>("contactId"));
@@ -108,6 +118,11 @@ public class ViewAppointmentsController implements Initializable {
         Title.setCellValueFactory(new PropertyValueFactory<>("title"));
         Type.setCellValueFactory(new PropertyValueFactory<>("type"));
         UserID.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        ObservableList<Count> reportList = DBAppointments.apptReport();
+        reportTable.setItems(reportList);
+        typeReport.setCellValueFactory(new PropertyValueFactory<>("type"));
+        monthReport.setCellValueFactory(new PropertyValueFactory<>("month"));
+        countReport.setCellValueFactory(new PropertyValueFactory<>("count"));
     }
     //Filters all appointments by a user input contact ID and returns results on the appointmentTable to meet the contact report requirements of 3f
     @FXML

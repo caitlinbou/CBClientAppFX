@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.Count;
 import helper.JDBC;
 import Model.Appointment;
 import javafx.collections.FXCollections;
@@ -15,16 +16,15 @@ import java.time.LocalDateTime;
  */
 public abstract class DBAppointments {
     /**
-     *
      * @return apptLIst
      */
-    public static ObservableList<Appointment> getAllAppointments(){
+    public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> apptList = FXCollections.observableArrayList();
-        try{
+        try {
             String sql = "SELECT * from appointments";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 int apptId = rs.getInt("Appointment_ID");
                 String title = rs.getString("Title");
                 String description = rs.getString("Description");
@@ -42,7 +42,28 @@ public abstract class DBAppointments {
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
-        } return apptList;
+        }
+        return apptList;
+    }
+
+    public static ObservableList<Count> apptReport() {
+        ObservableList<Count> reportList = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT Type, monthname(start) AS month, Count(*) as \n" +
+                    "Count FROM client_schedule.appointments GROUP BY Type, monthname(start);";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String type = rs.getString("Type");
+                String month = rs.getString("month");
+                int count = rs.getInt("count");
+                Count C = new Count(type, month, count);
+                reportList.add(C);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reportList;
     }
 
     public static int insert(String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
@@ -52,27 +73,27 @@ public abstract class DBAppointments {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5,start);
-        ps.setTimestamp(6,end);
-        ps.setInt(7,custId);
-        ps.setInt(8,userId);
-        ps.setInt(9,contactId);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
+        ps.setInt(7, custId);
+        ps.setInt(8, userId);
+        ps.setInt(9, contactId);
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
 
-    public static int update(int apptId,String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId ) throws SQLException {
+    public static int update(int apptId, String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID =?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, title);
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5,start);
-        ps.setTimestamp(6,end);
-        ps.setInt(7,custId);
-        ps.setInt(8,userId);
-        ps.setInt(9,contactId);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
+        ps.setInt(7, custId);
+        ps.setInt(8, userId);
+        ps.setInt(9, contactId);
         ps.setInt(10, apptId);
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
@@ -84,27 +105,5 @@ public abstract class DBAppointments {
         ps.setInt(1, apptId);
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
-    }
-//TODO: DELETE IF NOT USED
-    public static void select(int custId) throws SQLException {
-        String sql = "Select * FROM appointments WHERE Customer_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, custId);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            int apptId = rs.getInt("Appointment_ID");
-            String title = rs.getString("Title");
-            String description = rs.getString("Description");
-            String location = rs.getString("Location");
-            String type = rs.getString("Type");
-            Timestamp start = rs.getTimestamp("Start");
-            Timestamp end = rs.getTimestamp("End");
-            int custIdFK = rs.getInt("Customer_ID");
-            int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
-            System.out.println(apptId + " | " + title);
-            System.out.println(custId + "\n");
-
-        }
     }
 }
