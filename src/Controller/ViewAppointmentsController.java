@@ -1,11 +1,7 @@
 package Controller;
 
 import DAO.DBAppointments;
-import DAO.DBCustomers;
 import Model.Appointment;
-import Model.Countries;
-import Model.Customer;
-import Model.Division;
 import helper.Reports;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,23 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
 
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
@@ -92,10 +80,7 @@ public class ViewAppointmentsController implements Initializable {
             ObservableList<Appointment> filteredAppts = filterAppointments(comboOption);
             System.out.println(filteredAppts);
         }
-
     }
-
-
 
     ObservableList<String> options = FXCollections.observableArrayList(
             "All Appointments",
@@ -112,8 +97,6 @@ public class ViewAppointmentsController implements Initializable {
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
         apptsByMonth.setText(Reports.apptsByMonth(apptList).toString());
         apptsByType.setText(Reports.apptsByType(apptList).toString());
-        Reports.apptsByCustomer(apptList);
-        Reports.apptsByContact(apptList);
         appointmentTable.setItems(apptList);
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
         Contact.setCellValueFactory(new PropertyValueFactory<>("contactId"));
@@ -137,7 +120,7 @@ public class ViewAppointmentsController implements Initializable {
                     filteredApptList.add(appointment);
                 }
             }
-            if (contactFilter.getText() == "" || filteredApptList.isEmpty()) {
+            if (contactFilter.getText().equals("") || filteredApptList.isEmpty()) {
                 Alert alert;
                 alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
                 alert.showAndWait();
@@ -161,7 +144,7 @@ public class ViewAppointmentsController implements Initializable {
                 filteredApptList.add(appointment);
             }
         }
-        if (userFilter.getText() == "" || filteredApptList.isEmpty()) {
+        if (userFilter.getText().equals("") || filteredApptList.isEmpty()) {
             Alert alert;
             alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
             alert.showAndWait();
@@ -197,9 +180,6 @@ public class ViewAppointmentsController implements Initializable {
 
         ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
-        //TODO getSelection model to know which combobox option is selected and then
-        //TODO: check in the for loop for the month of the start LocalDateTime. Compare to SystemDefault date. If current month, then add to list.
-
         for (Appointment appointment : appointmentList) {
             if (appointment.getStart().getMonth() == today.getMonth())
                 filteredApptList.add(appointment);
@@ -221,7 +201,6 @@ public class ViewAppointmentsController implements Initializable {
 
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
-//TODO. See "EditCustomerController" for reference...that is done.
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/View/AddAppointments.fxml")));
         stage.setScene(new Scene(scene));
@@ -240,7 +219,7 @@ public class ViewAppointmentsController implements Initializable {
             if(result.isPresent() && result.get() == ButtonType.OK) {
                 Appointment appointment = appointmentTable.getSelectionModel().getSelectedItem();
                 int alertApptId = appointment.getApptId();
-                String alertApptType = appointment.getType();;
+                String alertApptType = appointment.getType();
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("You have successfully deleted Appointment: " + alertApptId + "of the type " + alertApptType);
                 alert.showAndWait();
@@ -263,7 +242,6 @@ public class ViewAppointmentsController implements Initializable {
         stage.show();
     }
 
-
     @FXML
     void handleViewCustomers(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -278,19 +256,16 @@ public class ViewAppointmentsController implements Initializable {
 
     @FXML
     void handleUpdateBtn(ActionEvent event) throws IOException, SQLException {
-        //TODO: properly select item and load it INTO the edit panel. Reference "MainForm" and "ModifyPart" controllers from SW1
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditAppointments.fxml")));
         loader.load();
         if (appointmentTable.getSelectionModel().getSelectedItem() != null) {
             EditAppointmentsController ModifyController = loader.getController();
             ModifyController.sendAppointment(appointmentTable.getSelectionModel().getSelectedItem());
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-
         }
     }
 }

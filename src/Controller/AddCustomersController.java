@@ -33,9 +33,6 @@ public class AddCustomersController implements Initializable {
     private ComboBox<Countries> editCountry;
 
     @FXML
-    private TextField editCustId;
-
-    @FXML
     private TextField editCustName;
 
     @FXML
@@ -48,7 +45,7 @@ public class AddCustomersController implements Initializable {
     private TextField editPostal;
 
     ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
-    ObservableList<Countries> countryList = DBCountries.getAllCountries();
+
     @FXML
     void handleCountrySelected(ActionEvent event) {
         editDiv.setDisable(false);
@@ -57,12 +54,8 @@ public class AddCustomersController implements Initializable {
                 .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
         editDiv.setItems(filteredDivisions);
-
-    }
-
-    @FXML
-    void handleDivisionSelected(ActionEvent event) {
-
+        editDiv.getSelectionModel().clearSelection();
+        editDiv.setValue(null);
     }
 
     @Override
@@ -104,5 +97,4 @@ public class AddCustomersController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
 }

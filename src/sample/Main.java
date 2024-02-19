@@ -1,15 +1,17 @@
 package sample;
 
-import DAO.DBAppointments;
 import helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.sql.SQLException;
-
+import java.util.Objects;
+/**
+ * This is the entry point to the CBClientAppFX application. It gives terminal feedback when the application is starting, loads the initial Login.fxml view,
+ * opens and closes the database connection with the help of the JDBC helper file, and provides terminal feedback when the application is stopped.
+ */
 public class Main extends Application {
 
     @Override
@@ -19,7 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/Login.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../View/Login.fxml")));
         primaryStage.setTitle("Appointment Manager XYZ Company");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -29,24 +31,11 @@ public class Main extends Application {
     public void stop() {
         System.out.println("Stopping");
     }
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         JDBC.openConnection();
-
-      /*  Timestamp startTime = Timestamp.valueOf("2020-05-28 12:00:00");
-        Timestamp endTime = Timestamp.valueOf("2020-05-28 13:00:00");
-        int rowsAffected = DBAppointments.update(1,"cool", "yes", "planning", "type", startTime, endTime,1, 1, 1);
-        if(rowsAffected>0) System.out.println("Update Successful");
-        else System.out.println("No Update");
-
-        int rowsAffected = DBAppointments.delete(1);
-        if(rowsAffected>0) System.out.println("Update Successful");
-        else System.out.println("No Update");
-        */
-        DBAppointments.select(1);
         launch(args);
         //code goes HERE
         JDBC.closeConnection();
     }
-
 }

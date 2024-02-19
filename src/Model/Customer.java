@@ -1,5 +1,7 @@
 package Model;
-
+/**
+ * This describes the "Customer" class with getters and setters for all class variables.
+ */
 public class Customer {
     private int custId;
     private String custName;
@@ -10,7 +12,9 @@ public class Customer {
     private String custDivision;
     private String custPhone;
     private int divId;
-
+    /**
+     * This allows public access of the "Customer" class to create an instance of a Customer Object.
+     */
     public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
         this.custId = custId;
         this.custName = custName;

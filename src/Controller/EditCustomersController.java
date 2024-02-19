@@ -11,13 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -46,28 +43,22 @@ public class EditCustomersController {
         private TextField editPostal;
         ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
         ObservableList<Countries> countryList = DBCountries.getAllCountries();
-        @FXML
+
+    /**
+     * This function filters the Div combobox based on the country selected in the country combobox. It uses the filter lambda available to the ObservableList object
+     * to create a list of available divisions based on the country selected. This is one of the two required usages of a lambda function.
+     *
+     */
+    @FXML
         void handleCountrySelected(ActionEvent event) {
-            //lambda to filter Div Combobox options based on country selected in country Combobox
-          //TODO error handling: when click on country combobox, selected division should dissapear.
-            Countries selectedCountry = editCountry.getValue();
-            ObservableList<Division> filteredDivisions = divisionList.stream()
-                    .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-            editDiv.setItems(filteredDivisions);
-        }
-
-        @FXML
-        void handleDivisionSelected(ActionEvent event) {
-/*
-            Division selectedDivision = editDiv.getValue();
-            ObservableList<Countries> filteredCountries = countryList.stream()
-                    .filter(Countries -> Objects.equals(Countries.getId(), selectedDivision.getCountryId()))
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
-            editCountry.setItems(filteredCountries);
-            */
-
-        }
+        Countries selectedCountry = editCountry.getValue();
+        ObservableList<Division> filteredDivisions = divisionList.stream()
+                .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        editDiv.setItems(filteredDivisions);
+        editDiv.getSelectionModel().clearSelection();
+        editDiv.setValue(null);
+    }
 
         @FXML
         void handleCancel(ActionEvent event) {
@@ -82,17 +73,15 @@ public class EditCustomersController {
         }
 
     Customer thisCust;
-    int custId, divId, custCountryId;
-    String custName, custAddress, custPostal, custCountry, custDivision, custPhone;
+    int custId, divId;
+    String custName, custAddress, custPostal, custPhone;
 
-    public void sendCustomer(Customer customer) throws IOException, SQLException {
+    public void sendCustomer(Customer customer) {
         thisCust = customer;
         ObservableList<Division> selectedDivision = DBDivisions.getDivisionByDivId(thisCust.getDivId());
         ObservableList<Division> divList = DBDivisions.getAllDivisions();
         ObservableList<Countries> selectedCountry = DBCountries.getCountrybyId(thisCust.getCustCountryID());
         ObservableList<Countries> countryList = DBCountries.getAllCountries();
-
-
         editCustId.setText(String.valueOf(thisCust.getCustId()));
         editCustName.setText(thisCust.getCustName());
         editAddress.setText(thisCust.getCustAddress());
@@ -107,24 +96,19 @@ public class EditCustomersController {
 
         @FXML
         void handleSubmit(ActionEvent event) throws IOException, SQLException {
-//TODO: Figure out how to get the edited information and pass to
             custId = Integer.parseInt(editCustId.getText());
-          //  divId = editDiv.getSelectionModel();
             custName = editCustName.getText();
             custAddress = editAddress.getText();
             custPostal = editPostal.getText();
             custPhone = editPhone.getText();
             Division custDiv =  editDiv.getValue();
             divId = custDiv.getDivId();
-
             DBCustomers.update(custId, custName, custAddress, custPostal, custPhone, divId);
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
             stage.setScene(new Scene(scene));
             stage.show();
         }
-
     }
 
 

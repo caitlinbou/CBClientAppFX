@@ -6,8 +6,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * This is called by the LoginController at the time of each login attempt to record each loginAttempt in the file "login_activity.txt".
+ */
 public class Logins {
-
 
     public static void writeLoginAttempt(LoginAttempt loginAttempt) {
         String fileName = "login_activity.txt";

@@ -1,8 +1,10 @@
 package Model;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+
+/**
+ * This describes the "Appointment" class with getters and setters for all class variables.
+ */
 
 public class Appointment {
     private int apptId;
@@ -53,8 +55,53 @@ public class Appointment {
         this.userId = userId;
     }
 
-    public void setApptId( int apptId) {this.apptId = apptId;}
+    public void setApptId(int apptId) {
+        this.apptId = apptId;
+    }
 
+    public int getApptId() {
+        return apptId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public int getCustId() {
+        return custId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * This allows public access of the "Appointment" class to create an instance of an Appointment Object.
+     */
     public Appointment(int apptId, String title, String description, String location, int contactId, String type, LocalDateTime start, LocalDateTime end, int custId, int userId) {
         this.apptId = apptId;
         this.title = title;
@@ -68,23 +115,4 @@ public class Appointment {
         this.userId = userId;
     }
 
-    public int getApptId() {return apptId;}
-
-    public String getTitle() {return title;}
-
-    public String getDescription() {return description;}
-
-    public String getLocation() {return location;}
-
-    public int getContactId() {return contactId;}
-
-    public String getType() {return type;}
-
-    public LocalDateTime getStart() {return start;}
-
-    public LocalDateTime getEnd() {return end;}
-
-    public int getCustId() {return custId;}
-
-    public int getUserId() {return userId;}
 }

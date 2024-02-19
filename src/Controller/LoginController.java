@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,7 +28,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
-public class LoginController<userList> implements Initializable {
+/**
+ * The LoginController provides access to the Login.fxml for presentation, and handles page actions that may occur. The Initialize function accesses the user's
+ * computer timezone and language settings to display the relevant timezone on the login page upon loading, as well as the correct language based on computer settings.
+ * (Limited to French and English based on the requirements provided).
+ */
+public class LoginController implements Initializable {
     Stage stage;
     Parent scene;
     @FXML
@@ -62,10 +66,9 @@ public class LoginController<userList> implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Get system time Zone
         String tz = TimeZone.getDefault().getID();
-        //Get the time zone of the default time zone
+        //Get default time zone
         TimeZone timeZone = TimeZone.getTimeZone(tz);
         timeZoneLbl.setText(timeZone.getDisplayName());
-
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Nat", Locale.getDefault());
                 language.setText(rb.getString("hello"));
@@ -73,33 +76,39 @@ public class LoginController<userList> implements Initializable {
                 nameLabel.setText(rb.getString("username"));
                 passLabel.setText(rb.getString("password"));
                 btnLabel.setText(rb.getString("submit"));
-
         }catch (Exception e){
-
             System.out.println("Error:" + e.getMessage());
-        };
+        }
     }
+
+    /**
+     * The displayApptAlert function gets a list of all appointments from the database, and loops over the list to separate them into two new lists
+     * based on whether they are to occur within 15 minutes or in greater than 15 minutes. It then provides successful sign on feedback, as well as a
+     * notification as to whether there are appointments within 15 minutes or not. If there are, it provides appointment details.
+     */
     public static void displayApptAlert() {
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> futureAppt = FXCollections.observableArrayList();
         ObservableList<Appointment> upcomingAppt = FXCollections.observableArrayList();
         String showApptData = "";
+        System.out.println("Date/Time NOW:" + LocalDateTime.now());
         for (Appointment A : allAppointmentList) {
             LocalDateTime apptDateTime = A.getStart();
             LocalDate apptDate = apptDateTime.toLocalDate();
             LocalDateTime nowPlus15 = LocalDateTime.of(LocalDate.now(), LocalTime.now().plusMinutes(15));
             LocalDate dateNow = nowPlus15.toLocalDate();
             int dateCompare = apptDate.compareTo(dateNow);
-            System.out.println(nowPlus15);
             int timeCompare = apptDateTime.compareTo(nowPlus15);
             if (timeCompare > 0) {
                 futureAppt.add(A);
             } else if (dateCompare == 0){
                 upcomingAppt.add(A);
-                System.out.println("THIS IS UPCOMINGAPPT" + upcomingAppt);
+                //TODO: delete
+                System.out.println("Upcoming Appts" + upcomingAppt);
                 showApptData = (showApptData + "Appt ID " + A.getApptId() + " Date and Time " + A.getStart() + "\n");
-                System.out.println("THIS IS STRING" + showApptData);
+                //TODO: delete
+                System.out.println("Appt ID and Date/Time" + showApptData);
             }
         }
         if (upcomingAppt.isEmpty()) {
@@ -109,7 +118,11 @@ public class LoginController<userList> implements Initializable {
         }
         alert.showAndWait();
     }
-
+    /**
+     * The handleButtonAction function checks user input username and password against the database and either allows access to the application, or
+     * notifies the user to re-enter their username and password. It calls the Logins.WriteLoginAttempt to record the attempt and whether it was
+     * successful or not. If it is successful, it calls the above displayApptAlert, and then loads the ViewAppointments.fxml.
+     */
     @FXML
     private void handleButtonAction (ActionEvent event){
         boolean outcome = false;
@@ -140,7 +153,5 @@ public class LoginController<userList> implements Initializable {
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
-
     }
-
 }

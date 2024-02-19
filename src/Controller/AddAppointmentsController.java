@@ -1,6 +1,5 @@
 package Controller;
 
-
 import DAO.DBAppointments;
 import DAO.DBContacts;
 import DAO.DBCustomers;
@@ -14,13 +13,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.Objects;
@@ -29,9 +26,6 @@ import java.util.ResourceBundle;
 public class AddAppointmentsController implements Initializable{
     Stage stage;
     Parent scene;
-
-    @FXML
-    private TextField addApptId;
 
     @FXML
     private TextField addDescription;
@@ -66,20 +60,6 @@ public class AddAppointmentsController implements Initializable{
 
     @FXML
     private ComboBox<User> addUserId;
-
-    @FXML
-    void handleEndDate(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleStartDate(ActionEvent event) {
-
-    }
-
-    @FXML
-    private static int currentId = 2;
-    public static int nextId() {return ++currentId;}
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -179,7 +159,7 @@ public class AddAppointmentsController implements Initializable{
                 alert.showAndWait();
             }
         } catch (IOException | SQLException e) {
-
+            e.printStackTrace();
         }
     }
 }

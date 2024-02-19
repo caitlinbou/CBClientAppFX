@@ -4,26 +4,22 @@ import helper.JDBC;
 import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.converter.LocalDateTimeStringConverter;
-
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
+/**
+ * This allows for one query to the database using the JDBC helper function, and 3 other database actions. This follows the CRUD standard for database access, allowing
+ * for the application to create, read, update, and destroy rows from the appointment database. getAllAppointments() gets all appointments from the database and uses the Appointment
+ * class to create Appointment Objects for use in the application. Insert allows for the application to Add appointments to the db, update allows for appointment information to be updated
+ * in the db, and delete allows for appointments to be deleted from the db.
+ */
 public abstract class DBAppointments {
     public static ObservableList<Appointment> getAllAppointments(){
-
         ObservableList<Appointment> apptList = FXCollections.observableArrayList();
-
         try{
             String sql = "SELECT * from appointments";
-
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-
             ResultSet rs = ps.executeQuery();
-
             while(rs.next()) {
                 int apptId = rs.getInt("Appointment_ID");
                 String title = rs.getString("Title");
@@ -39,43 +35,12 @@ public abstract class DBAppointments {
                 int userId = rs.getInt("User_ID");
                 Appointment A = new Appointment(apptId, title, description, location, contactId, type, start, end, custId, userId);
                 apptList.add(A);
-                //System.out.println(apptList.get(0).getApptId());
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         } return apptList;
     }
-    public static ObservableList<Appointment> getApptsByUser(int id){
-        ObservableList<Appointment> apptUserList = FXCollections.observableArrayList();
 
-        try{
-            String sql = "SELECT * from appointments WHERE User_ID = ' " + id + "'";
-
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                int apptId = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                int contactId = rs.getInt("Contact_ID");
-                String type = rs.getString("Type");
-                java.sql.Timestamp startTimestamp = rs.getTimestamp("start");
-                LocalDateTime start = startTimestamp.toLocalDateTime();
-                java.sql.Timestamp endTimestamp = rs.getTimestamp("end");
-                LocalDateTime end = endTimestamp.toLocalDateTime();
-                int custId = rs.getInt("Customer_ID");
-                int userId = rs.getInt("User_ID");
-                Appointment A = new Appointment(apptId, title, description, location, contactId, type, start, end, custId, userId);
-                apptUserList.add(A);
-                //System.out.println(apptList.get(0).getApptId());
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        } return apptUserList;
-    }
     public static int insert(String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -95,7 +60,6 @@ public abstract class DBAppointments {
     public static int update(int apptId,String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId ) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID =?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-
         ps.setString(1, title);
         ps.setString(2, description);
         ps.setString(3, location);
@@ -117,7 +81,7 @@ public abstract class DBAppointments {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
-
+//TODO: DELETE IF NOT USED
     public static void select(int custId) throws SQLException {
         String sql = "Select * FROM appointments WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

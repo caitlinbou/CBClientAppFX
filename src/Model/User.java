@@ -1,5 +1,7 @@
 package Model;
-
+/**
+ * This describes the "User" class with getters and setters for all class variables.
+ */
 public class User {
     private int id;
     private String name;
@@ -16,7 +18,9 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    /**
+     * This allows public access of the "User" class to create an instance of a User Object.
+     */
     public User(int id, String name, String password){
         this.id = id;
         this.name = name;

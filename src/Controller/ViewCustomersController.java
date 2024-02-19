@@ -58,11 +58,6 @@ public class ViewCustomersController implements Initializable {
     @FXML
     private TableColumn<Customer, String> custPostal;
 
-    @FXML
-    private Label customMessage;
-
-
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         //TODO: Bring in division and country (DROP DOWN LIST FOR THE ADD/Modify)
@@ -75,7 +70,6 @@ public class ViewCustomersController implements Initializable {
         custPostal.setCellValueFactory(new PropertyValueFactory<>("custPostal"));
         custFirstLevel.setCellValueFactory(new PropertyValueFactory<>("custDivision"));
         custCountry.setCellValueFactory(new PropertyValueFactory<>("custCountry"));
-
     }
 
     @FXML
@@ -93,7 +87,7 @@ public class ViewCustomersController implements Initializable {
             alert = new Alert(Alert.AlertType.CONFIRMATION, "Select a Customer");
             alert.showAndWait();
         }else {
-            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete this customer record. All appointments related to this customer will also be deleted?");
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete this customer record. All appointments related to this customer will also be deleted.");
             Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.OK) {
                 ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
@@ -102,7 +96,6 @@ public class ViewCustomersController implements Initializable {
                         .filter(Appointment -> Objects.equals(Appointment.getCustId(), customer.getCustId()))
                         .collect(Collectors.toCollection(FXCollections::observableArrayList));
                 System.out.println(filteredAppointments);
-                //TODO go to DBAPPOINTMENTS do DBAPPTS.deleteCustAppts
                 DBAppointments.delete(customer.getCustId());
                 DBCustomers.delete(customer.getCustId());
                 ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
@@ -125,19 +118,16 @@ public class ViewCustomersController implements Initializable {
 
     @FXML
     void handleCustUpdateBtn(ActionEvent event) throws IOException, SQLException {
-        //TODO: properly select item and load it INTO the edit panel. Reference "MainForm" and "ModifyPart" controllers from SW1
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditCustomers.fxml")));
         loader.load();
         if (customerTableView.getSelectionModel().getSelectedItem() != null) {
             EditCustomersController ModifyController = loader.getController();
             ModifyController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-
         }
     }
 }
