@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class EditAppointmentsController {
@@ -122,19 +123,18 @@ public class EditAppointmentsController {
         LocalDate endDate = end.toLocalDate();
         editEndTime.setText(String.valueOf(endTime));
         editEndDate.setValue(endDate);
-
     }
-
-    private boolean overlap(LocalDateTime startDateTime){
+    private boolean overlap(LocalDateTime startDateTime, int custID){
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> concurrent = FXCollections.observableArrayList();
 
         for (Appointment A : allAppointmentList) {
             LocalDateTime apptDateTime = A.getStart();
+            int apptCustID = A.getCustId();
             int timeCompare = apptDateTime.compareTo(startDateTime);
-            if (timeCompare == 0) {
-                alert = new Alert(Alert.AlertType.WARNING, "There is already an Appointment scheduled during that time slot");
+            if (timeCompare == 0 && apptCustID == custID) {
+                alert = new Alert(Alert.AlertType.WARNING, "This customer already has an Appointment scheduled for that time");
                 alert.showAndWait();
                 concurrent.add(A);
                 break;
@@ -142,10 +142,8 @@ public class EditAppointmentsController {
         }
         return !concurrent.isEmpty();
     }
-
     @FXML
     void handleSubmit(ActionEvent event) throws IOException, SQLException {
-        try{
             apptId = Integer.parseInt(editApptId.getText());
             title = editTitle.getText();
             description = editDescription.getText();
@@ -166,21 +164,18 @@ public class EditAppointmentsController {
             LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
             start = Timestamp.valueOf(startDateTime);
             end = Timestamp.valueOf(endDateTime);
-            //START OF PASTE
-            ZonedDateTime apptStartEST = ZonedDateTime.of(startDateTime, ZoneId.of("America/New_York"));
-            System.out.println("Appointment Start Time in EST: " + apptStartEST);
-            LocalTime businessStart = LocalTime.of(8,0);
-            LocalTime businessEnd = LocalTime.of(22,0);
-            LocalTime apptStartLocalTime = apptStartEST.toLocalTime();
-            System.out.println("Appointment Start Local Time in EST: " + apptStartLocalTime);
-            DayOfWeek apptDay = apptStartEST.getDayOfWeek();
+            DateTimeFormatter dtF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            ZonedDateTime startTimeEST = ZonedDateTime.parse(LocalDate.now() + " 08:00", dtF.withZone(ZoneId.of("America/New_York")));
+            ZonedDateTime endTimeEST = ZonedDateTime.parse(LocalDate.now() + " 22:00", dtF.withZone(ZoneId.of("America/New_York")));
+            ZonedDateTime startTimeLocal = startTimeEST.withZoneSameInstant(ZoneId.systemDefault());
+            ZonedDateTime endTimeLocal = endTimeEST.withZoneSameInstant(ZoneId.systemDefault());
+            System.out.println("Appointment Start Time in EST: " + startTimeEST);
+            LocalTime startTimeLocalTime = startTimeLocal.toLocalTime();
+            LocalTime endTimeLocalTime = endTimeLocal.toLocalTime();
             Alert alert;
-            if(apptDay == DayOfWeek.SATURDAY || apptDay ==DayOfWeek.SUNDAY) {
-                alert = new Alert(Alert.AlertType.WARNING, "Please select M-F");
-                alert.showAndWait();
-            }else if (apptStartLocalTime.isAfter(businessStart) && (apptStartLocalTime.isBefore(businessEnd))) {
+            if (startTime.isAfter(startTimeLocalTime) && (startTime.isBefore(endTimeLocalTime))) {
                 int timeCheck = start.compareTo(end);
-                if (timeCheck < 0 && !overlap(startDateTime)) {
+                if (timeCheck < 0 && !overlap(startDateTime, custId)) {
                     DBAppointments.update(apptId, title, description, location, type, start, end, custId, userId, contactId);
                     stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));
@@ -193,9 +188,8 @@ public class EditAppointmentsController {
             } else {alert = new Alert(Alert.AlertType.WARNING, "Please select a time within business hours");
                 alert.showAndWait();
             }
-        } catch (IOException | SQLException e) {
-
         }
-    }
 }
+
+
 

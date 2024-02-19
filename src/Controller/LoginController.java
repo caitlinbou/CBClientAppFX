@@ -89,26 +89,15 @@ public class LoginController implements Initializable {
     public static void displayApptAlert() {
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
-        ObservableList<Appointment> futureAppt = FXCollections.observableArrayList();
         ObservableList<Appointment> upcomingAppt = FXCollections.observableArrayList();
         String showApptData = "";
         System.out.println("Date/Time NOW:" + LocalDateTime.now());
+        LocalDateTime nowPlus15 = LocalDateTime.of(LocalDate.now(), LocalTime.now().plusMinutes(15));
         for (Appointment A : allAppointmentList) {
             LocalDateTime apptDateTime = A.getStart();
-            LocalDate apptDate = apptDateTime.toLocalDate();
-            LocalDateTime nowPlus15 = LocalDateTime.of(LocalDate.now(), LocalTime.now().plusMinutes(15));
-            LocalDate dateNow = nowPlus15.toLocalDate();
-            int dateCompare = apptDate.compareTo(dateNow);
-            int timeCompare = apptDateTime.compareTo(nowPlus15);
-            if (timeCompare > 0) {
-                futureAppt.add(A);
-            } else if (dateCompare == 0){
+            if (apptDateTime.isAfter(LocalDateTime.of(LocalDate.now(), LocalTime.now())) && apptDateTime.isBefore(nowPlus15)) {
                 upcomingAppt.add(A);
-                //TODO: delete
-                System.out.println("Upcoming Appts" + upcomingAppt);
-                showApptData = (showApptData + "Appt ID " + A.getApptId() + " Date and Time " + A.getStart() + "\n");
-                //TODO: delete
-                System.out.println("Appt ID and Date/Time" + showApptData);
+                showApptData = (showApptData + "Appt ID: " + A.getApptId() + " Date and Time: " + A.getStart() + "\n");
             }
         }
         if (upcomingAppt.isEmpty()) {

@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
  * in the db, and delete allows for appointments to be deleted from the db.
  */
 public abstract class DBAppointments {
+    /**
+     *
+     * @return apptLIst
+     */
     public static ObservableList<Appointment> getAllAppointments(){
         ObservableList<Appointment> apptList = FXCollections.observableArrayList();
         try{
