@@ -98,9 +98,18 @@ public class Appointment {
     public int getUserId() {
         return userId;
     }
-
     /**
      * This allows public access of the "Appointment" class to create an instance of an Appointment Object.
+     * @param apptId
+     * @param title
+     * @param description
+     * @param location
+     * @param contactId
+     * @param type
+     * @param start
+     * @param end
+     * @param custId
+     * @param userId
      */
     public Appointment(int apptId, String title, String description, String location, int contactId, String type, LocalDateTime start, LocalDateTime end, int custId, int userId) {
         this.apptId = apptId;

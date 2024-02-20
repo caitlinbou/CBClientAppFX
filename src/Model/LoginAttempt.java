@@ -28,6 +28,8 @@ public class LoginAttempt{
     }
     /**
      * This allows public access of the "LoginAttempt" class to create an instance of a LoginAttempt Object.
+     * @param outcome
+     * @param timeStamp
      */
     public LoginAttempt(boolean outcome, LocalDateTime timeStamp) {
         this.outcome = outcome;

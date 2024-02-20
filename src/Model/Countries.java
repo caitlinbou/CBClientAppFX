@@ -7,6 +7,8 @@ public class Countries {
     private String name;
     /**
      * This allows public access of the "Countries" class to create an instance of a Countries Object.
+     * @param id
+     * @param name
      */
     public Countries(int id, String name){
         this.id = id;

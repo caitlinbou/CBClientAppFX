@@ -36,9 +36,11 @@ public class Contact {
     public String toString() {
         return this.contactName;
     }
-
     /**
      * This allows public access of the "Contact" class to create an instance of a Contact Object.
+     * @param contactId
+     * @param contactName
+     * @param email
      */
     public Contact(int contactId, String contactName, String email) {
         this.contactId = contactId;

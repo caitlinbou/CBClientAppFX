@@ -1,5 +1,7 @@
 package Model;
-
+/**
+ * This describes the "Count" class with getters and setters for all class variables.
+ */
 public class Count {
     public String getType() {
         return type;
@@ -28,7 +30,12 @@ public class Count {
     private String type;
     private String month;
     private int count;
-
+    /**
+     * This allows public access of the "Count" class to create an instance of a Count Object.
+     * @param type
+     * @param month
+     * @param count
+     */
     public Count(String type, String month, int count){
         this.type = type;
         this.month = month;

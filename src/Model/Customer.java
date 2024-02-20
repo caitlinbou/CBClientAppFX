@@ -14,6 +14,15 @@ public class Customer {
     private int divId;
     /**
      * This allows public access of the "Customer" class to create an instance of a Customer Object.
+     * @param custId
+     * @param custName
+     * @param custAddress
+     * @param custPostal
+     * @param custCountry
+     * @param custCountryID
+     * @param custDivision
+     * @param custPhone
+     * @param divId
      */
     public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
         this.custId = custId;

@@ -43,7 +43,6 @@ public class AddAppointmentsController implements Initializable{
     @FXML
     private TextField addEndTime;
 
-
     @FXML
     private TextField addLocation;
 
@@ -88,6 +87,16 @@ public class AddAppointmentsController implements Initializable{
         stage.show();
     }
 
+    /**
+     * Boolean to determine if the selected customer already has an appointment at that time, and to issue a warning if so.
+     * This function contains is one of the two lambda functions required to be used in the application.
+     * It uses a lambda expression to allow for instructions on what to do once client acknowledges the warning with the "OK" button. In this case
+     * the start and end time text fields are cleared, requiring new inputs. The return value of this function may be used for additional error checks, as in the
+     * case of the function call in the handleSubmit function below.
+     * @param startDateTime
+     * @param custID
+     * @return True/False
+     */
     private boolean overlap(LocalDateTime startDateTime, int custID){
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
@@ -98,8 +107,13 @@ public class AddAppointmentsController implements Initializable{
             int apptCustID = A.getCustId();
             int timeCompare = apptDateTime.compareTo(startDateTime);
             if (timeCompare == 0 && apptCustID == custID) {
-                alert = new Alert(Alert.AlertType.WARNING, "This customer already has an Appointment scheduled for that time");
-                alert.showAndWait();
+                alert = new Alert(Alert.AlertType.WARNING, "This customer already has an Appointment scheduled for that time.");
+                alert.showAndWait().ifPresent((response ->{
+                    if (response == ButtonType.OK) {
+                        addStartTime.clear();
+                        addEndTime.clear();
+                    }
+                }));
                 concurrent.add(A);
                 break;
             }
