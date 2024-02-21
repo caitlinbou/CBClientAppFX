@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * The EditCustomersController provides access to the EditCustomers.fxml for presentation, and handles page actions that may occur.
+ */
 public class EditCustomersController {
     Stage stage;
     Parent scene;
@@ -43,9 +46,9 @@ public class EditCustomersController {
         private TextField editPostal;
         ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
     /**
-     * This function filters the Div combo-box based on the country selected in the country combo-box. It uses the filter lambda available to the ObservableList object
-     * to create a list of available divisions based on the country selected. This is one of the two required usages of a lambda function.
-     *
+     * The handleCountrySelected function filters the Div combo-box based on the country selected in the country combo-box. It uses the filter lambda available to the ObservableList object
+     * to create a list of available divisions based on the country selected. **This is one of the two required usages of a lambda function in this project**.
+     * @param event
      */
     @FXML
         void handleCountrySelected(ActionEvent event) {
@@ -58,6 +61,10 @@ public class EditCustomersController {
         editDiv.setValue(null);
     }
 
+    /**
+     * The handleCancel function exits the editCustomers view without action and reloads the ViewCustomers.fxml.
+     * @param event
+     */
         @FXML
         void handleCancel(ActionEvent event) {
             stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -74,6 +81,11 @@ public class EditCustomersController {
     int custId, divId;
     String custName, custAddress, custPostal, custPhone;
 
+    /**
+     * The sendCustomer function sets the values that will load on the EditCustomer page and is used by the ViewCustomersController.handleCustUpdate()
+     * function.
+     * @param customer
+     */
     public void sendCustomer(Customer customer) {
         thisCust = customer;
         ObservableList<Division> selectedDivision = DBDivisions.getDivisionByDivId(thisCust.getDivId());
@@ -92,6 +104,13 @@ public class EditCustomersController {
 
     }
 
+    /**
+     * the handleSubmit function gets the data entered into EditCustomer.fxml fields and updates the customer table in the database with the changes.
+     * It then loads the ViewCustomers.fxml view.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
         @FXML
         void handleSubmit(ActionEvent event) throws IOException, SQLException {
             custId = Integer.parseInt(editCustId.getText());

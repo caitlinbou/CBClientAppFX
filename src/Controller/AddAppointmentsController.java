@@ -23,7 +23,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
+/**
+ * The AddAppointmentsController provides access to the AddAppointments.fxml for presentation, and handles page actions that may occur.
+ */
 public class AddAppointmentsController implements Initializable{
     Stage stage;
     Parent scene;
@@ -60,7 +62,11 @@ public class AddAppointmentsController implements Initializable{
 
     @FXML
     private ComboBox<User> addUserId;
-
+    /**
+     * The initialize function sets the initial comboBox information for the AddAppointment.fxml view.
+     * @param url Gets the URL
+     * @param resourceBundle Gets the resource bundle
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         ObservableList<Customer> customerList = DBCustomers.getAllCustomers();
@@ -75,6 +81,10 @@ public class AddAppointmentsController implements Initializable{
         addContact.setPromptText("Select Contact Name");
     }
 
+    /**
+     * The handleCancel function loads the ViewAppointments.fxml view.
+     * @param event response to an action event (button click)
+     */
     @FXML
     void handleCancel(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -88,13 +98,14 @@ public class AddAppointmentsController implements Initializable{
     }
 
     /**
-     * Boolean to determine if the selected customer already has an appointment at that time, and to issue a warning if so.
-     * This function contains is one of the two lambda functions required to be used in the application.
-     * It uses a lambda expression to allow for instructions on what to do once client acknowledges the warning with the "OK" button. In this case
+     * he overlap function checks the time of all appointments belonging to the selected customer against the time input on the AddAppointments view. If the
+     * customer already has an appointment at that time, an alert is given.
+     * **This function contains one of the two lambda functions required to be used in the application**.
+     * It uses the lambda expression to allow for instructions on what to do once client acknowledges the warning with the "OK" button. In this case
      * the start and end time text fields are cleared, requiring new inputs. The return value of this function may be used for additional error checks, as in the
      * case of the function call in the handleSubmit function below.
-     * @param startDateTime
-     * @param custID
+     * @param startDateTime takes in a Start LocalDateTime
+     * @param custID Takes in an int customer ID
      * @return True/False
      */
     private boolean overlap(LocalDateTime startDateTime, int custID){
@@ -121,6 +132,15 @@ public class AddAppointmentsController implements Initializable{
         return !concurrent.isEmpty();
     }
 
+    /**
+     * The handleSubmit function gets all input values from the AddAppointment form. It checks the input time against the business hours (in EST).
+     * If it is within EST business hours, and does not overlap with any other appointments for the customer, the appointment details are sent
+     * to the database with the DBAppointments.insert function. If the end time is not after the start time, it sends an alert, and if it falls outside of business
+     * hours it sends a different alert.
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     void handleSubmit(ActionEvent event) throws SQLException, IOException {
             String title = addTitle.getText();

@@ -7,10 +7,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 /**
- * This allows for two queries to the database using the JDBC helper function. getAllDivisions() gets all divisions from the database.
- * getDivisionByDivId allows for retrieval of a specific division based on division ID. The Division class is used to create Division objects
- * to store this data in the application and to present it in the user interface. There is no need for an update, delete, or insert
- * statement in the case of the contacts DB, as those functions are administratively restricted according to the requirements.
+ *  This selects all Divisions from the first_level_divisions table in the database and returns an ObservableList of Divisions for access in
+ *  the application.
  */
 public class DBDivisions {
     public static ObservableList<Division> getAllDivisions(){
@@ -31,6 +29,11 @@ public class DBDivisions {
         } return divList;
     }
 
+    /**
+     * This selects a Division by Division_ID from the Division table in the database.
+     * @param dId
+     * @return divByDivList (a Division Object in an ObservableList).
+     */
     public static ObservableList<Division> getDivisionByDivId(int dId) {
         ObservableList<Division> divByDivList = FXCollections.observableArrayList();
         try {

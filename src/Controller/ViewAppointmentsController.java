@@ -24,6 +24,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * The ViewAppointmentsController provides access to the ViewAppointments.fxml for presentation, and handles page actions that may occur.
+ */
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
@@ -82,13 +85,16 @@ public class ViewAppointmentsController implements Initializable {
     @FXML
     private TableView<Appointment> appointmentTable;
 
-
+    /**
+     * The handleViewSelection function filters through all appointments based on the combo option selected and presents the filtered list.
+     * It does this by calling the FilterAppointments function.
+     * @param event
+     */
     @FXML
     void handleViewSelection(ActionEvent event) {
         String comboOption = viewComboBox.getValue();
         if (comboOption != null) {
             ObservableList<Appointment> filteredAppts = filterAppointments(comboOption);
-            System.out.println(filteredAppts);
         }
     }
 
@@ -98,6 +104,11 @@ public class ViewAppointmentsController implements Initializable {
             "Current Week Appointments"
     );
 
+    /**
+     * The initialize function sets the comboBox options and loads the appointment table with all appointments.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         viewComboBox.setItems(options);
@@ -119,7 +130,9 @@ public class ViewAppointmentsController implements Initializable {
         monthReport.setCellValueFactory(new PropertyValueFactory<>("month"));
         countReport.setCellValueFactory(new PropertyValueFactory<>("count"));
     }
-    //Filters all appointments by a user input contact ID and returns results on the appointmentTable to meet the contact report requirements of 3f
+    /**
+     * The handleContactSearch filters all appointments by a user input contact ID and returns results on the reportTable to meet the contact report requirements of 3f
+     */
     @FXML
     void handleContactSearch(ActionEvent event) {
         ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
@@ -141,9 +154,10 @@ public class ViewAppointmentsController implements Initializable {
                 appointmentTable.setItems(filteredApptList);
                 contactFilter.clear();
             }
-
     }
-    //Filters all appointments by a user input User ID and returns results on the appointmentTable to meet the "additional report"  requirements of 3f
+    /**
+     * The handleUserSearch filters all appointments by a user input User ID and returns results on the reportTable to meet the "additional report" requirements of 3f.
+     */
     @FXML
     void handleUserSearch(ActionEvent event) {
         ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
@@ -159,14 +173,18 @@ public class ViewAppointmentsController implements Initializable {
             alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
             alert.showAndWait();
             appointmentTable.setItems(appointmentList);
-            userFilter.clear();
         }
         else {
             appointmentTable.setItems(filteredApptList);
-            userFilter.clear();
         }
+        userFilter.clear();
     }
 
+    /**
+     * The filterAppointmentsWeek creates a list of Appointments for the current week and presents them on the page when the weekly view is selected by
+     * the handleViewSelection function.
+     * @return This returns a filtered list of the appointments.
+     */
     private ObservableList<Appointment> filterAppointmentsWeek () {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
@@ -185,6 +203,11 @@ public class ViewAppointmentsController implements Initializable {
         return filteredApptList;
     }
 
+    /**
+     * The filterAppointmentsWeek creates a list of Appointments for the current Month and presents them on the page when the weekly view is selected by
+     * the handleViewSelection function.
+     * @return This returns a filtered list of the appointments.
+     */
     private ObservableList<Appointment> filterAppointmentsMonth () {
         LocalDateTime today = LocalDateTime.now();
 
@@ -197,6 +220,12 @@ public class ViewAppointmentsController implements Initializable {
         appointmentTable.setItems(filteredApptList);
         return filteredApptList;
         }
+
+    /**
+     * The filterAppointments function creates a list of Appointments for the current week or month by calling filterAppointmentsMonth or
+     * filterAppointmentsWeek based on the result of handleViewSelection.
+     * @return This returns a filtered list of the appointments.
+     */
     private ObservableList<Appointment> filterAppointments(String comboOption) {
         if (comboOption.equals("Current Month Appointments")) {
             return filterAppointmentsMonth();
@@ -209,6 +238,11 @@ public class ViewAppointmentsController implements Initializable {
         }
     }
 
+    /**
+     * The handleAddBtn function loads the AddAppointments.fxml page when the add button is clicked.
+     * @param event
+     * @throws IOException
+     */
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -216,12 +250,15 @@ public class ViewAppointmentsController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
-    @FXML
+/**
+ * The handleDeleteBtn function gets the appointment ID of the selected row, if a selection is made. It calls the delete function from DBAppointments
+ * to remove the selected appointment from the database and then reloads all appointments from the database. It gives feedback by way of alerts to confirm.
+ */
+@FXML
     void handleDeleteBtn(ActionEvent event) throws SQLException {
         Alert alert;
         if ((appointmentTable.getSelectionModel().getSelectedItem()) == null) {
-            alert = new Alert(Alert.AlertType.CONFIRMATION, "Select an Appointment");
+            alert = new Alert(Alert.AlertType.WARNING, "Select an Appointment");
             alert.showAndWait();
         }else {
             alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you would like to delete?");
@@ -240,6 +277,10 @@ public class ViewAppointmentsController implements Initializable {
         }
     }
 
+    /**
+     * The handleExitBtn function ends the login session and redirects to the login.fxml view.
+     * @param event
+     */
     @FXML
     void handleExitBtn(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -252,6 +293,10 @@ public class ViewAppointmentsController implements Initializable {
         stage.show();
     }
 
+    /**
+     * The handleViewCustomers function loads the ViewCustomers.fxml view.
+     * @param event
+     */
     @FXML
     void handleViewCustomers(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -264,6 +309,13 @@ public class ViewAppointmentsController implements Initializable {
         stage.show();
     }
 
+    /**
+     * The handleUpdateBtn function gets the selected row and passes the information to the EditAppointmentsController. It then loads the EditAppointments.fxml
+     * view with the selected information so that it may be edited.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     @FXML
     void handleUpdateBtn(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();

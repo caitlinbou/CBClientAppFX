@@ -38,9 +38,9 @@ public class Contact {
     }
     /**
      * This allows public access of the "Contact" class to create an instance of a Contact Object.
-     * @param contactId
-     * @param contactName
-     * @param email
+     * @param contactId takes in int contactId
+     * @param contactName takes in String contactName
+     * @param email takes in String email
      */
     public Contact(int contactId, String contactName, String email) {
         this.contactId = contactId;

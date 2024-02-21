@@ -29,9 +29,7 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 /**
- * The LoginController provides access to the Login.fxml for presentation, and handles page actions that may occur. The Initialize function accesses the user's
- * computer timezone and language settings to display the relevant timezone on the login page upon loading, as well as the correct language based on computer settings.
- * (Limited to French and English based on the requirements provided).
+ * The LoginController provides access to the Login.fxml for presentation, and handles page actions that may occur.
  */
 public class LoginController implements Initializable {
     Stage stage;
@@ -62,6 +60,12 @@ public class LoginController implements Initializable {
 
     public String errorMessage;
 
+    /**
+     * The Initialize function accesses the user's computer timezone and language settings to display the relevant timezone on the
+     * login page upon loading, as well as the correct language based on computer settings. (Limited to French and English based on the requirements provided).
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Get system time Zone
@@ -80,7 +84,6 @@ public class LoginController implements Initializable {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
     /**
      * The displayApptAlert function gets a list of all appointments from the database, and loops over the list to separate them into two new lists
      * based on whether they are to occur within 15 minutes or in greater than 15 minutes. It then provides successful sign on feedback, as well as a

@@ -100,16 +100,16 @@ public class Appointment {
     }
     /**
      * This allows public access of the "Appointment" class to create an instance of an Appointment Object.
-     * @param apptId
-     * @param title
-     * @param description
-     * @param location
-     * @param contactId
-     * @param type
-     * @param start
-     * @param end
-     * @param custId
-     * @param userId
+     * @param apptId takes in int apptId
+     * @param title takes in String title
+     * @param description takes in String description
+     * @param location takes in String location
+     * @param contactId takes in int contactId
+     * @param type takes in String type
+     * @param start takes in LocalDateTime start
+     * @param end takes in LocalDateTime end
+     * @param custId takes in int custId
+     * @param userId takes in int userId
      */
     public Appointment(int apptId, String title, String description, String location, int contactId, String type, LocalDateTime start, LocalDateTime end, int custId, int userId) {
         this.apptId = apptId;

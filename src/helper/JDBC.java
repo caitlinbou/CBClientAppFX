@@ -22,7 +22,7 @@ public abstract class JDBC {
 
     /**
      * This opens the database connection
-     * @return
+     * @return returns an open connection for access.
      */
     public static Connection openConnection()
     {
@@ -40,7 +40,7 @@ public abstract class JDBC {
 
     /**
      * This accesses the connection
-     * @return
+     * @return returns the connection when needed
      */
     public static Connection getConnection() {
         return connection;

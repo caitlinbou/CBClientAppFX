@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.sql.SQLException;
 import java.util.Objects;
 /**
  * This is the entry point to the CBClientAppFX application. It gives terminal feedback when the application is starting, loads the initial Login.fxml view,

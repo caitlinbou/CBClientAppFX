@@ -8,15 +8,11 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-/**
- * This allows for one query to the database using the JDBC helper function, and 3 other database actions. This follows the CRUD standard for database access, allowing
- * for the application to create, read, update, and destroy rows from the appointment database. getAllAppointments() gets all appointments from the database and uses the Appointment
- * class to create Appointment Objects for use in the application. Insert allows for the application to Add appointments to the db, update allows for appointment information to be updated
- * in the db, and delete allows for appointments to be deleted from the db.
- */
 public abstract class DBAppointments {
     /**
-     * @return apptLIst
+     * This selects all Appointments from the appointments table in the database and returns an ObservableList of appointments for access in
+     * the application.
+     * @return apptList
      */
     public static ObservableList<Appointment> getAllAppointments() {
         ObservableList<Appointment> apptList = FXCollections.observableArrayList();
@@ -46,6 +42,11 @@ public abstract class DBAppointments {
         return apptList;
     }
 
+    /**
+     * This groups appointments by type and by list, and converts the date to a name of month. This is used to present reporting on the number of each type
+     * of appointment in each month.
+     * @return It returns a grouped list of appointment types by month.
+     */
     public static ObservableList<Count> apptReport() {
         ObservableList<Count> reportList = FXCollections.observableArrayList();
         try {
@@ -66,6 +67,20 @@ public abstract class DBAppointments {
         return reportList;
     }
 
+    /**
+     * This takes in the listed parameters and uses the to insert an appointment into the appointment table in the database.
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param custId
+     * @param userId
+     * @param contactId
+     * @return
+     * @throws SQLException
+     */
     public static int insert(String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -82,6 +97,21 @@ public abstract class DBAppointments {
         return rowsAffected;
     }
 
+    /**
+     * This takes in the selected parameters, and uses them to update the selected appointment in the database.
+     * @param apptId
+     * @param title
+     * @param description
+     * @param location
+     * @param type
+     * @param start
+     * @param end
+     * @param custId
+     * @param userId
+     * @param contactId
+     * @return
+     * @throws SQLException
+     */
     public static int update(int apptId, String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID =?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -99,6 +129,12 @@ public abstract class DBAppointments {
         return rowsAffected;
     }
 
+    /**
+     * This takes in an appt ID and deletes that appointment from the appointment list.
+     * @param apptId
+     * @return
+     * @throws SQLException
+     */
     public static int delete(int apptId) throws SQLException {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

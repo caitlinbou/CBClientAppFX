@@ -17,7 +17,6 @@ public class LoginAttempt{
     }
 
     private LocalDateTime timeStamp;
-    private int userId;
 
     public boolean isOutcome() {
         return outcome;
@@ -28,8 +27,8 @@ public class LoginAttempt{
     }
     /**
      * This allows public access of the "LoginAttempt" class to create an instance of a LoginAttempt Object.
-     * @param outcome
-     * @param timeStamp
+     * @param outcome takes in a boolean outcome.
+     * @param timeStamp takes in a LocalDateTime timeStamp.
      */
     public LoginAttempt(boolean outcome, LocalDateTime timeStamp) {
         this.outcome = outcome;

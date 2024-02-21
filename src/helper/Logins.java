@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Logins {
     /**
      * This takes in an instance of a loginAttempt and appends the time and success of the attempt into the login_activity.txt file.
-     * @param loginAttempt
+     * @param loginAttempt takes in an Object of class LoginAttempt.
      */
     public static void writeLoginAttempt(LoginAttempt loginAttempt) {
         String fileName = "login_activity.txt";

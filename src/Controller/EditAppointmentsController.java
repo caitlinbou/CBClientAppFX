@@ -21,7 +21,9 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-
+/**
+ * The EditAppointmentsController provides access to the EditAppointments.fxml for presentation, and handles page actions that may occur.
+ */
 public class EditAppointmentsController {
 
     Stage stage;
@@ -62,16 +64,10 @@ public class EditAppointmentsController {
     @FXML
     private ComboBox<User> editUserId;
 
-    @FXML
-    void handleEndDate(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleStartDate(ActionEvent event) {
-
-    }
-
+    /**
+     * The handleCancel function exits the editAppointments view without action and reloads the ViewAppointments.fxml.
+     * @param event
+     */
     @FXML
     void handleCancel(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -90,7 +86,11 @@ public class EditAppointmentsController {
     String title, description, location, type;
     Timestamp start;
     Timestamp end;
-
+    /**
+     * The sendAppointments function sets the values that will load on the EditAppointments page and is used by the ViewAppointmentsController.handleUpdateBtn()
+     * function.
+     * @param appointment
+     */
     public void sendAppointment(Appointment appointment) {
         thisAppt = appointment;
         ObservableList<Contact> selectedContact = DBContacts.getContactById(thisAppt.getContactId());
@@ -119,6 +119,15 @@ public class EditAppointmentsController {
         editEndTime.setText(String.valueOf(endTime));
         editEndDate.setValue(endDate);
     }
+
+    /**
+     * The overlap function checks the time of all appointments belonging to the selected customer against the time input on the EditAppointments view. If the
+     * customer already has an appointment at that time, an alert is given.
+     * @param startDateTime
+     * @param custID
+     * @param apptId
+     * @return This returns a boolean response that can be used in further checks, and is used by the handleSubmit function.
+     */
     private boolean overlap(LocalDateTime startDateTime, int custID, int apptId){
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
@@ -137,6 +146,16 @@ public class EditAppointmentsController {
         }
         return !concurrent.isEmpty();
     }
+
+    /**
+     * The handleSubmit function gets all input values from the EditCustomer form. It checks the input time against the business hours (in EST).
+     * If it is within EST business hours, and does not overlap with any other appointments for the customer, the appointment details are sent
+     * to the database with the DBAppointments.update function. If the end time is not after the start time, it sends an alert, and if it falls outside of business
+     * hours it sends a different alert.
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     @FXML
     void handleSubmit(ActionEvent event) throws IOException, SQLException {
             apptId = Integer.parseInt(editApptId.getText());

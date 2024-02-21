@@ -5,12 +5,10 @@ import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
-
 /**
- * This allows for two queries to the database using the JDBC helper function. getAllContacts() gets all contacts from the database.
- * getContactByID allows for retrieval of a specific contact based on contact ID. The Contact class is used to create Contact objects
- * to store this data in the application and to present it in the user interface. There is no need for an update, delete, or insert
- * statement in the case of the contacts DB, as those functions are administratively restricted according to the requirements.
+ * This selects all Contacts from the contacts table in the database and returns an ObservableList of contacts for access in
+ * the application.
+ * @return This returns a list of all contacts.
  */
 public class DBContacts {
 
@@ -32,6 +30,11 @@ public class DBContacts {
         } return contactList;
     }
 
+    /**
+     * This takes in a Contact ID and queries for the specified contact in the SQL database.
+     * @param cId
+     * @return It returns the specified contact.
+     */
     public static ObservableList<Contact> getContactById(int cId) {
         ObservableList<Contact> selectedContact = FXCollections.observableArrayList();
         try {

@@ -20,9 +20,9 @@ public class User {
     }
     /**
      * This allows public access of the "User" class to create an instance of a User Object.
-     * @param id
-     * @param name
-     * @param password
+     * @param id takes in an int id
+     * @param name takes in a String name
+     * @param password takes in a String password
      */
     public User(int id, String name, String password){
         this.id = id;

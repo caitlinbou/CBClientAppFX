@@ -7,10 +7,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 /**
- * This allows for one query to the database using the JDBC helper function, and 3 other database actions. This follows the CRUD standard for database access, allowing
- * for the application to create, read, update, and destroy rows from the customer database. getAllCustomers() gets all customers from the database and uses the Customer
- * class to create Customer Objects for use in the application. Insert allows for the application to Add customers to the db, update allows for customer information to be updated
- * in the db, and delete allows for customers to be deleted from the db.
+ * This joins three tables together to bring in customer information along with the division and country that they are associated with.
+ * @return it returns a list of all customers.
  */
 public class DBCustomers {
     public static ObservableList<Customer> getAllCustomers() {
@@ -41,6 +39,16 @@ public class DBCustomers {
         return customerList;
     }
 
+    /**
+     * This takes in the listed parameters and inserts them into a SQL query to the Customers table in the database.
+     * @param custName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param divId
+     * @return
+     * @throws SQLException
+     */
     public static int insert(String custName, String address, String postalCode, String phone, int divId) throws SQLException {
         String sql = "INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -53,6 +61,17 @@ public class DBCustomers {
         return rowsAffected;
     }
 
+    /**
+     * This takes in the listed parameters and Updates the specified customer through a SQL command to the Customers table in the database.
+     * @param custId
+     * @param custName
+     * @param address
+     * @param postalCode
+     * @param phone
+     * @param divId
+     * @return
+     * @throws SQLException
+     */
     public static int update(int custId, String custName, String address, String postalCode, String phone, int divId) throws SQLException {
         String sql = "UPDATE Customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -68,6 +87,12 @@ public class DBCustomers {
         return rowsAffected;
     }
 
+    /**
+     * This takes in a custId and deletes the specified customer from the customers table in the SQL database.
+     * @param custId
+     * @return
+     * @throws SQLException
+     */
     public static int delete(int custId) throws SQLException {
         String sql = "DELETE FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

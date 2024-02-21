@@ -52,8 +52,8 @@
             <ComboBox fx:id="editContact" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="editUserId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField fx:id="editCustId" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <DatePicker fx:id="editStartDate" onAction="#handleStartDate" promptText="Select Date" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <DatePicker fx:id="editEndDate" onAction="#handleEndDate" promptText="Select Date" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <DatePicker fx:id="editStartDate" promptText="Select Date" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <DatePicker fx:id="editEndDate" promptText="Select Date" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             </children>
         </GridPane>
         <Button layoutX="534.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />

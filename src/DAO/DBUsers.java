@@ -6,10 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 /**
- * This allows for two queries to the database using the JDBC helper function. getAllUsers() gets all users from the database.
- * getUserByID allows for retrieval of a specific user based on user ID. The User class is used to create User objects
- * to store this data in the application and to present it in the user interface. This data is used for logging into the application from the Login view.
- * There is no need for an update, delete, or insert statement in the case of the user DB, as those functions are administratively restricted according to the requirements.
+ * This selects all Users from the User table in the database and returns an ObservableList of users for access in
+ * the application.
  */
 public class DBUsers {
     public static ObservableList<User> getAllUsers(){
@@ -30,6 +28,11 @@ public class DBUsers {
         } return userList;
     }
 
+    /**
+     * This selects a User by UserID from the User table in the database.
+     * @param cId
+     * @return selectedUser (a User Object in an ObservableList).
+     */
     public static ObservableList<User> getUserById(int cId) {
         ObservableList<User> selectedUser = FXCollections.observableArrayList();
         try {

@@ -21,7 +21,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
+/**
+ * The AddCustomersController provides access to the AddCustomers.fxml for presentation, and handles page actions that may occur.
+ */
 public class AddCustomersController implements Initializable {
     Stage stage;
     Parent scene;
@@ -46,6 +48,11 @@ public class AddCustomersController implements Initializable {
 
     ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
 
+    /**
+     * The handleCountrySelected function filters the Div combo-box based on the country selected in the country combo-box. It uses the filter lambda available to the ObservableList object
+     * to create a list of available divisions based on the country selected. **This is one of the two required usages of a lambda function in this project**.
+     * @param event
+     */
     @FXML
     void handleCountrySelected(ActionEvent event) {
         editDiv.setDisable(false);
@@ -57,7 +64,11 @@ public class AddCustomersController implements Initializable {
         editDiv.getSelectionModel().clearSelection();
         editDiv.setValue(null);
     }
-
+    /**
+     * The initialize function sets the initial comboBox information for the AddCustomer.fxml view.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         ObservableList<Countries> countryList = DBCountries.getAllCountries();
@@ -70,6 +81,11 @@ public class AddCustomersController implements Initializable {
         editDiv.setPromptText("Select Division");
 
     }
+
+    /**
+     * The handleCancel function loads the ViewCustomer.fxml view.
+     * @param event
+     */
     @FXML
     void handleCancel(ActionEvent event) {
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -82,6 +98,13 @@ public class AddCustomersController implements Initializable {
         stage.show();
     }
 
+    /**
+     * The handleSubmit gets the Customer information from the user input text and inserts a new Customer into the customers table
+     * of the database. It then loads the ViewCustomers.fxml.
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     void handleSubmit(ActionEvent event) throws SQLException, IOException {
         String custName = editCustName.getText();

@@ -9,9 +9,9 @@ public class Division {
     private int countryId;
     /**
      * This allows public access of the "Division" class to create an instance of a Division Object.
-     * @param divId
-     * @param divName
-     * @param countryId
+     * @param divId takes in int divId
+     * @param divName takes in String divName
+     * @param countryId takes in int countryId
      */
     public Division(int divId, String divName, int countryId) {
         this.divId = divId;
