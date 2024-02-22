@@ -6,12 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 /**
- * This selects all Contacts from the contacts table in the database and returns an ObservableList of contacts for access in
- * the application.
- * @return This returns a list of all contacts.
+ * Defines class DBContacts allowing for database access to the contacts table.
  */
 public class DBContacts {
-
+    /**
+     * This selects all Contacts from the contacts table in the database and returns an ObservableList of contacts for access in
+     * the application.
+     * @return ObservableList of all contacts from the db
+     */
     public static ObservableList<Contact> getAllContacts(){
         ObservableList<Contact> contactList = FXCollections.observableArrayList();
         try{
@@ -32,7 +34,7 @@ public class DBContacts {
 
     /**
      * This takes in a Contact ID and queries for the specified contact in the SQL database.
-     * @param cId
+     * @param cId takes in cId of a contact object
      * @return It returns the specified contact.
      */
     public static ObservableList<Contact> getContactById(int cId) {

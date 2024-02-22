@@ -88,7 +88,7 @@ public class ViewAppointmentsController implements Initializable {
     /**
      * The handleViewSelection function filters through all appointments based on the combo option selected and presents the filtered list.
      * It does this by calling the FilterAppointments function.
-     * @param event
+     * @param event  response to an action event (combo-box selection)
      */
     @FXML
     void handleViewSelection(ActionEvent event) {
@@ -106,8 +106,8 @@ public class ViewAppointmentsController implements Initializable {
 
     /**
      * The initialize function sets the comboBox options and loads the appointment table with all appointments.
-     * @param url
-     * @param resourceBundle
+     * @param url takes in url
+     * @param resourceBundle takes in resourceBundle
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -148,12 +148,11 @@ public class ViewAppointmentsController implements Initializable {
                 alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
                 alert.showAndWait();
                 appointmentTable.setItems(appointmentList);
-                contactFilter.clear();
             }
             else {
                 appointmentTable.setItems(filteredApptList);
-                contactFilter.clear();
             }
+        contactFilter.clear();
     }
     /**
      * The handleUserSearch filters all appointments by a user input User ID and returns results on the reportTable to meet the "additional report" requirements of 3f.
@@ -240,8 +239,8 @@ public class ViewAppointmentsController implements Initializable {
 
     /**
      * The handleAddBtn function loads the AddAppointments.fxml page when the add button is clicked.
-     * @param event
-     * @throws IOException
+     * @param event  response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
      void handleAddBtn(ActionEvent event) throws IOException {
@@ -279,7 +278,7 @@ public class ViewAppointmentsController implements Initializable {
 
     /**
      * The handleExitBtn function ends the login session and redirects to the login.fxml view.
-     * @param event
+     * @param event  response to an action event (button click)
      */
     @FXML
     void handleExitBtn(ActionEvent event) {
@@ -295,7 +294,7 @@ public class ViewAppointmentsController implements Initializable {
 
     /**
      * The handleViewCustomers function loads the ViewCustomers.fxml view.
-     * @param event
+     * @param event  response to an action event (combo-box selection)
      */
     @FXML
     void handleViewCustomers(ActionEvent event) {
@@ -312,12 +311,11 @@ public class ViewAppointmentsController implements Initializable {
     /**
      * The handleUpdateBtn function gets the selected row and passes the information to the EditAppointmentsController. It then loads the EditAppointments.fxml
      * view with the selected information so that it may be edited.
-     * @param event
-     * @throws IOException
-     * @throws SQLException
+     * @param event  response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
-    void handleUpdateBtn(ActionEvent event) throws IOException, SQLException {
+    void handleUpdateBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditAppointments.fxml")));
         loader.load();

@@ -6,10 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 /**
- * This selects all Countries from the countries table in the database and returns an ObservableList of countries for access in
- * the application.
+ * Defines class DBCountries allowing for database access to the countries table.
  */
 public class DBCountries {
+    /**
+     * This selects all Countries from the countries table in the database and returns an ObservableList of countries for access in
+     * the application.
+     * @return ObservableList of all countries from the database.
+     */
     public static ObservableList<Countries> getAllCountries() {
         ObservableList<Countries> clist = FXCollections.observableArrayList();
 
@@ -31,7 +35,7 @@ public class DBCountries {
 
     /**
      * This takes in a country ID and queries for the specified country in the SQL database.
-     * @param cId
+     * @param cId takes in country ID from the country object
      * @return it returns the specified country.
      */
     public static ObservableList<Countries> getCountrybyId(int cId) {

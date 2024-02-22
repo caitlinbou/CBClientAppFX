@@ -66,7 +66,7 @@ public class EditAppointmentsController {
 
     /**
      * The handleCancel function exits the editAppointments view without action and reloads the ViewAppointments.fxml.
-     * @param event
+     * @param event response to an action event (button click)
      */
     @FXML
     void handleCancel(ActionEvent event) {
@@ -89,7 +89,7 @@ public class EditAppointmentsController {
     /**
      * The sendAppointments function sets the values that will load on the EditAppointments page and is used by the ViewAppointmentsController.handleUpdateBtn()
      * function.
-     * @param appointment
+     * @param appointment takes in an appointment object
      */
     public void sendAppointment(Appointment appointment) {
         thisAppt = appointment;
@@ -123,9 +123,9 @@ public class EditAppointmentsController {
     /**
      * The overlap function checks the time of all appointments belonging to the selected customer against the time input on the EditAppointments view. If the
      * customer already has an appointment at that time, an alert is given.
-     * @param startDateTime
-     * @param custID
-     * @param apptId
+     * @param startDateTime takes in LocalDateTime of the user input
+     * @param custID takes in custId of the customer related to the appointment being edited
+     * @param apptId takes in the apptId of the appointment being edited
      * @return This returns a boolean response that can be used in further checks, and is used by the handleSubmit function.
      */
     private boolean overlap(LocalDateTime startDateTime, int custID, int apptId){
@@ -152,9 +152,9 @@ public class EditAppointmentsController {
      * If it is within EST business hours, and does not overlap with any other appointments for the customer, the appointment details are sent
      * to the database with the DBAppointments.update function. If the end time is not after the start time, it sends an alert, and if it falls outside of business
      * hours it sends a different alert.
-     * @param event
-     * @throws IOException
-     * @throws SQLException
+     * @param event response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
+     * @throws SQLException handles error related to SQLException
      */
     @FXML
     void handleSubmit(ActionEvent event) throws IOException, SQLException {

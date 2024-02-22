@@ -137,9 +137,9 @@ public class AddAppointmentsController implements Initializable{
      * If it is within EST business hours, and does not overlap with any other appointments for the customer, the appointment details are sent
      * to the database with the DBAppointments.insert function. If the end time is not after the start time, it sends an alert, and if it falls outside of business
      * hours it sends a different alert.
-     * @param event
-     * @throws SQLException
-     * @throws IOException
+     * @param event response to an action event (button click)
+     * @throws SQLException handles error related to SQLException
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
     void handleSubmit(ActionEvent event) throws SQLException, IOException {

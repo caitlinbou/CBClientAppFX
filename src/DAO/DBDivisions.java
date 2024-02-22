@@ -7,10 +7,14 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 /**
- *  This selects all Divisions from the first_level_divisions table in the database and returns an ObservableList of Divisions for access in
- *  the application.
+ * Defines class DBDivisions allowing for database access to the divisions table.
  */
 public class DBDivisions {
+    /**
+     *  This selects all Divisions from the first_level_divisions table in the database and returns an ObservableList of Divisions for access in
+     *  the application.
+     * @return ObservableList of all divisions from the first_level_divisions table
+     */
     public static ObservableList<Division> getAllDivisions(){
         ObservableList<Division> divList = FXCollections.observableArrayList();
         try{
@@ -31,7 +35,7 @@ public class DBDivisions {
 
     /**
      * This selects a Division by Division_ID from the Division table in the database.
-     * @param dId
+     * @param dId takes in a division id of the division Object
      * @return divByDivList (a Division Object in an ObservableList).
      */
     public static ObservableList<Division> getDivisionByDivId(int dId) {

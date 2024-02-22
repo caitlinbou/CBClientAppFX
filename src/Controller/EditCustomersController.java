@@ -48,7 +48,7 @@ public class EditCustomersController {
     /**
      * The handleCountrySelected function filters the Div combo-box based on the country selected in the country combo-box. It uses the filter lambda available to the ObservableList object
      * to create a list of available divisions based on the country selected. **This is one of the two required usages of a lambda function in this project**.
-     * @param event
+     * @param event response to an action event (combo-box selection)
      */
     @FXML
         void handleCountrySelected(ActionEvent event) {
@@ -63,7 +63,7 @@ public class EditCustomersController {
 
     /**
      * The handleCancel function exits the editCustomers view without action and reloads the ViewCustomers.fxml.
-     * @param event
+     * @param event response to an action event (button click)
      */
         @FXML
         void handleCancel(ActionEvent event) {
@@ -84,7 +84,7 @@ public class EditCustomersController {
     /**
      * The sendCustomer function sets the values that will load on the EditCustomer page and is used by the ViewCustomersController.handleCustUpdate()
      * function.
-     * @param customer
+     * @param customer takes in a customer Object
      */
     public void sendCustomer(Customer customer) {
         thisCust = customer;
@@ -107,9 +107,9 @@ public class EditCustomersController {
     /**
      * the handleSubmit function gets the data entered into EditCustomer.fxml fields and updates the customer table in the database with the changes.
      * It then loads the ViewCustomers.fxml view.
-     * @param event
-     * @throws IOException
-     * @throws SQLException
+     * @param event response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
+     * @throws SQLException handles error related to SQLException
      */
         @FXML
         void handleSubmit(ActionEvent event) throws IOException, SQLException {

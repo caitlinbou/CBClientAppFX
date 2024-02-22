@@ -51,7 +51,7 @@ public class AddCustomersController implements Initializable {
     /**
      * The handleCountrySelected function filters the Div combo-box based on the country selected in the country combo-box. It uses the filter lambda available to the ObservableList object
      * to create a list of available divisions based on the country selected. **This is one of the two required usages of a lambda function in this project**.
-     * @param event
+     * @param event response to an action event (combo-box selection)
      */
     @FXML
     void handleCountrySelected(ActionEvent event) {
@@ -66,8 +66,8 @@ public class AddCustomersController implements Initializable {
     }
     /**
      * The initialize function sets the initial comboBox information for the AddCustomer.fxml view.
-     * @param url
-     * @param resourceBundle
+     * @param url takes in url
+     * @param resourceBundle takes in resourceBundle
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -84,7 +84,7 @@ public class AddCustomersController implements Initializable {
 
     /**
      * The handleCancel function loads the ViewCustomer.fxml view.
-     * @param event
+     * @param event  response to an action event (button click)
      */
     @FXML
     void handleCancel(ActionEvent event) {
@@ -101,9 +101,9 @@ public class AddCustomersController implements Initializable {
     /**
      * The handleSubmit gets the Customer information from the user input text and inserts a new Customer into the customers table
      * of the database. It then loads the ViewCustomers.fxml.
-     * @param event
-     * @throws SQLException
-     * @throws IOException
+     * @param event  response to an action event (button click)
+     * @throws SQLException handles error related to SQLException
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
     void handleSubmit(ActionEvent event) throws SQLException, IOException {

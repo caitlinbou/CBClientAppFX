@@ -63,8 +63,8 @@ public class LoginController implements Initializable {
     /**
      * The Initialize function accesses the user's computer timezone and language settings to display the relevant timezone on the
      * login page upon loading, as well as the correct language based on computer settings. (Limited to French and English based on the requirements provided).
-     * @param url
-     * @param resourceBundle
+     * @param url takes in url
+     * @param resourceBundle takes in resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -93,14 +93,14 @@ public class LoginController implements Initializable {
         Alert alert;
         ObservableList<Appointment> allAppointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> upcomingAppt = FXCollections.observableArrayList();
-        String showApptData = "";
+        StringBuilder showApptData = new StringBuilder();
         System.out.println("Date/Time NOW:" + LocalDateTime.now());
         LocalDateTime nowPlus15 = LocalDateTime.of(LocalDate.now(), LocalTime.now().plusMinutes(15));
         for (Appointment A : allAppointmentList) {
             LocalDateTime apptDateTime = A.getStart();
             if (apptDateTime.isAfter(LocalDateTime.of(LocalDate.now(), LocalTime.now())) && apptDateTime.isBefore(nowPlus15)) {
                 upcomingAppt.add(A);
-                showApptData = (showApptData + "Appt ID: " + A.getApptId() + " Date and Time: " + A.getStart() + "\n");
+                showApptData.append("Appt ID: ").append(A.getApptId()).append(" Date and Time: ").append(A.getStart()).append("\n");
             }
         }
         if (upcomingAppt.isEmpty()) {

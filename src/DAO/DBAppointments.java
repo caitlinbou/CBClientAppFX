@@ -8,6 +8,9 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ * Defines class DBAppointments allowing for database access to the appointments table.
+ */
 public abstract class DBAppointments {
     /**
      * This selects all Appointments from the appointments table in the database and returns an ObservableList of appointments for access in
@@ -69,17 +72,17 @@ public abstract class DBAppointments {
 
     /**
      * This takes in the listed parameters and uses the to insert an appointment into the appointment table in the database.
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param start
-     * @param end
-     * @param custId
-     * @param userId
-     * @param contactId
-     * @return
-     * @throws SQLException
+     * @param title takes in a title for appointment object
+     * @param description takes in a description for appointment object
+     * @param location takes in a location for appointment object
+     * @param type takes in a type for appointment object
+     * @param start takes in a start for appointment object
+     * @param end takes in a end for appointment object
+     * @param custId takes in a custId for appointment object
+     * @param userId takes in a userId for appointment object
+     * @param contactId takes in a contactId for appointment object
+     * @return number of rows affected
+     * @throws SQLException handles errors related to SQLExceptions
      */
     public static int insert(String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -99,18 +102,18 @@ public abstract class DBAppointments {
 
     /**
      * This takes in the selected parameters, and uses them to update the selected appointment in the database.
-     * @param apptId
-     * @param title
-     * @param description
-     * @param location
-     * @param type
-     * @param start
-     * @param end
-     * @param custId
-     * @param userId
-     * @param contactId
-     * @return
-     * @throws SQLException
+     * @param apptId takes in a apptId for appointment object
+     * @param title takes in a title for appointment object
+     * @param description takes in a description for appointment object
+     * @param location takes in a location for appointment object
+     * @param type takes in a type for appointment object
+     * @param start takes in a start for appointment object
+     * @param end takes in a end for appointment object
+     * @param custId takes in a custId for appointment object
+     * @param userId takes in a userId for appointment object
+     * @param contactId takes in a contactId for appointment object
+     * @return number of rows affected
+     * @throws SQLException handles errors related to SQLExceptions
      */
     public static int update(int apptId, String title, String description, String location, String type, Timestamp start, Timestamp end, int custId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID =?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
@@ -131,9 +134,9 @@ public abstract class DBAppointments {
 
     /**
      * This takes in an appt ID and deletes that appointment from the appointment list.
-     * @param apptId
-     * @return
-     * @throws SQLException
+     * @param apptId takes in apptId of an appointment object
+     * @return number of rows affected
+     * @throws SQLException handles errors related to SQLExceptions
      */
     public static int delete(int apptId) throws SQLException {
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
