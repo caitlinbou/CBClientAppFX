@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * This is called by Main and it establishes the database connection using jdbc protocol, and mysql. The parameters are specific to allow running inside of the virtual machine.
+ * This is called by Main, and it establishes the database connection using jdbc protocol, and mysql. The parameters are specific to allow running in the virtual machine.
  * It has a function to open the connection, access the connection, and close the connection.
  */
 public abstract class JDBC {

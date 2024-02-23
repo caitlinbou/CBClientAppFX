@@ -1,7 +1,6 @@
 package DAO;
 
 import Model.Customer;
-import Model.User;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
