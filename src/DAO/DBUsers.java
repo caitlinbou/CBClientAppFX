@@ -5,7 +5,6 @@ import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
-import java.sql.*;
 /**
  * Defines class DBUsers allowing for database access to the user table.
  */

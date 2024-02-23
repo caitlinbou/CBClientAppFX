@@ -57,8 +57,8 @@ public class ViewCustomersController implements Initializable {
 
     /**
      * The initialize function loads the customer table with all customers.
-     * @param url
-     * @param resourceBundle
+     * @param url takes in url
+     * @param resourceBundle takes in resource bundle
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
@@ -75,8 +75,8 @@ public class ViewCustomersController implements Initializable {
 
     /**
      * The handleCustAddBtn loads the AddCustomers.fxml page when the add button is clicked.
-     * @param event
-     * @throws IOException
+     * @param event response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
     void handleCustAddBtn(ActionEvent event) throws IOException {
@@ -116,7 +116,7 @@ public class ViewCustomersController implements Initializable {
 
     /**
      * The handleCustExitBtn function exits the customer view and reloads the ViewAppointments.fxml view.
-     * @param event
+     * @param event response to an action event (button click)
      */
     @FXML
     void handleCustExitBtn(ActionEvent event) {
@@ -134,12 +134,11 @@ public class ViewCustomersController implements Initializable {
      * The handleCustUpdateBtn function gets the selected row and passes the information to the
      * EditCustomersController using the EditCustomersController.sendCustomer() function. It then loads the EditCustomers.fxml
      * view with the selected information so that it may be edited.
-     * @param event
-     * @throws IOException
-     * @throws SQLException
+     * @param event response to an action event (button click)
+     * @throws IOException handles error related to input/output exception
      */
     @FXML
-    void handleCustUpdateBtn(ActionEvent event) throws IOException, SQLException {
+    void handleCustUpdateBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/view/EditCustomers.fxml")));
         loader.load();
