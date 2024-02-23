@@ -98,7 +98,7 @@ public class AddAppointmentsController implements Initializable{
     }
 
     /**
-     * he overlap function checks the time of all appointments belonging to the selected customer against the time input on the AddAppointments view. If the
+     * The overlap function checks the time of all appointments belonging to the selected customer against the time input on the AddAppointments view. If the
      * customer already has an appointment at that time, an alert is given.
      * **This function contains one of the two lambda functions required to be used in the application**.
      * It uses the lambda expression to allow for instructions on what to do once client acknowledges the warning with the "OK" button. In this case
@@ -143,24 +143,26 @@ public class AddAppointmentsController implements Initializable{
      */
     @FXML
     void handleSubmit(ActionEvent event) throws SQLException, IOException {
-            String title = addTitle.getText();
-            String type = addType.getText();
-            String location = addLocation.getText();
-            Contact apptContact = addContact.getValue();
-            String startTimeText = addStartTime.getText();
+        String title = addTitle.getText();
+        String type = addType.getText();
+        String location = addLocation.getText();
+        Contact apptContact = addContact.getValue();
+        String startTimeText = addStartTime.getText();
+        String endTimeText = addEndTime.getText();
+        String description = addDescription.getText();
+        Alert alert;
+        if (!(addStartDate.getValue() == null) && !(addEndDate.getValue() == null) && !title.isEmpty() && !type.isEmpty() && !location.isEmpty() && !startTimeText.isEmpty() && !endTimeText.isEmpty() && !description.isEmpty() && !addContact.getSelectionModel().isEmpty() && !addCustId.getSelectionModel().isEmpty() && !addUserId.getSelectionModel().isEmpty()) {
             String startDateText = addStartDate.getValue().toString();
             LocalDate startDate = LocalDate.parse(startDateText);
             LocalTime startTime = LocalTime.parse(startTimeText);
             LocalDateTime startDateTime = LocalDateTime.of(startDate, startTime);
             Timestamp start = Timestamp.valueOf(startDateTime);
-            String endTimeText = addEndTime.getText();
             String endDateText = addEndDate.getValue().toString();
             LocalDate endDate = LocalDate.parse(endDateText);
             LocalTime endTime = LocalTime.parse(endTimeText);
             LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
             Timestamp end = Timestamp.valueOf(endDateTime);
             int contactId = apptContact.getContactId();
-            String description = addDescription.getText();
             Customer apptCust = addCustId.getValue();
             int custId = apptCust.getCustId();
             User apptUser = addUserId.getValue();
@@ -173,21 +175,25 @@ public class AddAppointmentsController implements Initializable{
             System.out.println("Appointment Start Time in EST: " + startTimeEST);
             LocalTime startTimeLocalTime = startTimeLocal.toLocalTime();
             LocalTime endTimeLocalTime = endTimeLocal.toLocalTime();
-            Alert alert;
-            if (startTime.isAfter(startTimeLocalTime) && (startTime.isBefore(endTimeLocalTime))) {
-                int timeCheck = start.compareTo(end);
-                if (timeCheck < 0 && !overlap(startDateTime, custId)) {
-                    DBAppointments.insert(title, description, location, type, start, end, custId, userId, contactId);
-                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));
-                    stage.setScene(new Scene(scene));
-                    stage.show();
-                } else if (timeCheck >= 0){
-                    alert = new Alert(Alert.AlertType.WARNING, "Please make sure the End Date/Time is after the Start Date/Time");
+                if (startTime.isAfter(startTimeLocalTime) && (startTime.isBefore(endTimeLocalTime))) {
+                    int timeCheck = start.compareTo(end);
+                    if (timeCheck < 0 && !overlap(startDateTime, custId)) {
+                        DBAppointments.insert(title, description, location, type, start, end, custId, userId, contactId);
+                        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewAppointments.fxml")));
+                        stage.setScene(new Scene(scene));
+                        stage.show();
+                    } else if (timeCheck >= 0) {
+                        alert = new Alert(Alert.AlertType.WARNING, "Please make sure the End Date/Time is after the Start Date/Time");
+                        alert.showAndWait();
+                    }
+                } else {
+                    alert = new Alert(Alert.AlertType.WARNING, "Please select a time within business hours");
                     alert.showAndWait();
                 }
-            } else {alert = new Alert(Alert.AlertType.WARNING, "Please select a time within business hours");
+            } else {
+                alert = new Alert(Alert.AlertType.WARNING, "All inputs are required, please update missing fields");
                 alert.showAndWait();
             }
         }
-}
+    }

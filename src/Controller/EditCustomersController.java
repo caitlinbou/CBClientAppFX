@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -119,12 +120,18 @@ public class EditCustomersController {
             custPostal = editPostal.getText();
             custPhone = editPhone.getText();
             Division custDiv =  editDiv.getValue();
-            divId = custDiv.getDivId();
-            DBCustomers.update(custId, custName, custAddress, custPostal, custPhone, divId);
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
-            stage.setScene(new Scene(scene));
-            stage.show();
+            if (custName.isEmpty() || custAddress.isEmpty() || custPostal.isEmpty() || custPhone.isEmpty() || editDiv.getSelectionModel().isEmpty() || editCountry.getSelectionModel().isEmpty()) {
+                Alert alert;
+                alert = new Alert(Alert.AlertType.WARNING, "All inputs are required, please update missing fields");
+                alert.showAndWait();
+            } else {
+                divId = custDiv.getDivId();
+                DBCustomers.update(custId, custName, custAddress, custPostal, custPhone, divId);
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
         }
     }
 

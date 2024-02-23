@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Customer;
+import Model.User;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +43,37 @@ public class DBCustomers {
         }
         return customerList;
     }
+    public static ObservableList<Customer> getCustomerById(int cId) {
+        ObservableList<Customer> selectedCustomer = FXCollections.observableArrayList();
+        try {
+            String sql = """
+                    SELECT customers.*, first_level_divisions.Division, countries.Country, countries.Country_ID
+                    FROM customers 
+                    JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID
+                    JOIN countries ON first_level_divisions.Country_ID=countries.Country_ID
+                    WHERE Customer_ID = ?;""";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, cId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                int custId = rs.getInt("Customer_ID");
+                String custName = rs.getString("Customer_Name");
+                String custAddress = rs.getString("Address");
+                String custPostal = rs.getString("Postal_Code");
+                int custCountryId = rs.getInt("Country_ID");
+                String custDivision = rs.getString("Division");
+                String custCountry = rs.getString("Country");
+                String custPhone = rs.getString("Phone");
+                int divId = rs.getInt("Division_ID");
 
+                Customer C = new Customer(custId, custName, custAddress, custPostal, custCountry, custCountryId, custDivision, custPhone, divId);
+                selectedCustomer.add(C);
+            }
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+        return selectedCustomer;
+    }
     /**
      * This takes in the listed parameters and inserts them into a SQL query to the Customers table in the database.
      * @param custName takes in custName of a customer Object

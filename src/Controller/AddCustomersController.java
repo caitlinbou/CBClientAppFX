@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -112,12 +113,18 @@ public class AddCustomersController implements Initializable {
         String postalCode = editPostal.getText();
         String phone = editPhone.getText();
         Division custDiv =  editDiv.getValue();
-        int divId = custDiv.getDivId();
-        DBCustomers.insert(custName, address, postalCode, phone, divId);
+        if (custName.isEmpty() || address.isEmpty() || postalCode.isEmpty() || phone.isEmpty() || editDiv.getSelectionModel().isEmpty() || editCountry.getSelectionModel().isEmpty()) {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.WARNING, "All inputs are required, please update missing fields");
+            alert.showAndWait();
+        } else {
+            int divId = custDiv.getDivId();
+            DBCustomers.insert(custName, address, postalCode, phone, divId);
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/ViewCustomers.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 }
