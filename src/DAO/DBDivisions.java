@@ -1,31 +1,30 @@
 package DAO;
 
-import Model.Contact;
 import Model.Division;
 import helper.JDBC;
-import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-
+/**
+ * Defines class DBDivisions allowing for database access to the divisions table.
+ */
 public class DBDivisions {
+    /**
+     *  This selects all Divisions from the first_level_divisions table in the database and returns an ObservableList of Divisions for access in
+     *  the application.
+     * @return ObservableList of all divisions from the first_level_divisions table
+     */
     public static ObservableList<Division> getAllDivisions(){
-
         ObservableList<Division> divList = FXCollections.observableArrayList();
-
         try{
             String sql = "SELECT * from first_level_divisions";
-
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-
             ResultSet rs = ps.executeQuery();
-
             while(rs.next()) {
                 int divId = rs.getInt("Division_ID");
                 String division = rs.getString("Division");
                 int countryId = rs.getInt("Country_ID");
-
                 Division D = new Division(divId, division, countryId);
                 divList.add(D);
             }
@@ -33,7 +32,13 @@ public class DBDivisions {
             throwable.printStackTrace();
         } return divList;
     }
-    public static ObservableList<Division> getDivisionByDivId(int dId) throws SQLException {
+
+    /**
+     * This selects a Division by Division_ID from the Division table in the database.
+     * @param dId takes in a division id of the division Object
+     * @return divByDivList (a Division Object in an ObservableList).
+     */
+    public static ObservableList<Division> getDivisionByDivId(int dId) {
         ObservableList<Division> divByDivList = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
@@ -44,7 +49,6 @@ public class DBDivisions {
                 int divId = rs.getInt("Division_ID");
                 String division = rs.getString("Division");
                 int countryId = rs.getInt("Country_ID");
-
                 Division c = new Division(divId, division, countryId);
                 divByDivList.add(c);
             }
@@ -53,64 +57,4 @@ public class DBDivisions {
         }
         return divByDivList;
     }
-    public static ObservableList<Division> getUKdiv (int cId) throws SQLException {
-        ObservableList<Division> divUK = FXCollections.observableArrayList();
-        try {
-            String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 2";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                int divId = rs.getInt("Division_ID");
-                String division = rs.getString("Division");
-                int countryId = rs.getInt("Country_ID");
-
-                Division d = new Division(divId, division, countryId);
-                divUK.add(d);
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        return divUK;
-    }
-
-    public static ObservableList<Division> getUSdiv (int cId) throws SQLException {
-        ObservableList<Division> divUS = FXCollections.observableArrayList();
-        try {
-            String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 1";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                int divId = rs.getInt("Division_ID");
-                String division = rs.getString("Division");
-                int countryId = rs.getInt("Country_ID");
-
-                Division d = new Division(divId, division, countryId);
-                divUS.add(d);
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        return divUS;
-    }
-
-    public static ObservableList<Division> getCADdiv (int cId) throws SQLException {
-        ObservableList<Division> divCAD = FXCollections.observableArrayList();
-        try {
-            String sql = "SELECT * FROM first_level_divisions WHERE Country_ID = 3";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                int divId = rs.getInt("Division_ID");
-                String division = rs.getString("Division");
-                int countryId = rs.getInt("Country_ID");
-
-                Division d = new Division(divId, division, countryId);
-                divCAD.add(d);
-            }
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        return divCAD;
-    }
-
 }

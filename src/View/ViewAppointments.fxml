@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="590.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ViewAppointmentsController">
-    <children>
+<AnchorPane prefHeight="590.0" prefWidth="1134.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ViewAppointmentsController">
         <HBox layoutX="105.0" layoutY="124.0" prefHeight="91.0" prefWidth="423.0" />
               <Button alignment="CENTER" contentDisplay="CENTER" layoutX="742.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="25.0" prefWidth="50.0" text="Add" textAlignment="CENTER" />
       <Button alignment="CENTER" contentDisplay="TEXT_ONLY" layoutX="802.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleUpdateBtn" prefHeight="25.0" prefWidth="78.0" text="Update" />
       <Button alignment="CENTER" layoutX="888.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleDeleteBtn" text="Delete" textAlignment="CENTER" />
       <TableView fx:id="appointmentTable" layoutX="11.0" layoutY="107.0" prefHeight="216.0" prefWidth="941.0">
         <columns>
-            <TableColumn fx:id="ApptID" prefWidth="95.0" text="Appointment_ID" />
-            <TableColumn fx:id="Title" prefWidth="95.0" text="Title" />
+            <TableColumn fx:id="ApptID" prefWidth="122.3999605178833" text="Appointment_ID" />
+            <TableColumn fx:id="Title" prefWidth="68.00003051757812" text="Title" />
             <TableColumn fx:id="Description" prefWidth="95.0" text="Description" />
-            <TableColumn fx:id="Location" minWidth="3.0" prefWidth="95.0" text="Location" />
-            <TableColumn fx:id="Contact" prefWidth="95.0" text="Contact" />
-            <TableColumn fx:id="Type" prefWidth="95.0" text="Type" />
-            <TableColumn fx:id="StartDT" prefWidth="95.0" text="Start Date and Time" />
-            <TableColumn fx:id="EndDT" prefWidth="95.0" text="End Date and Time" />
-            <TableColumn fx:id="CustID" prefWidth="95.0" text="Customer_ID" />
-            <TableColumn fx:id="UserID" prefWidth="95.0" text="User_ID" />
+            <TableColumn fx:id="Location" minWidth="3.0" prefWidth="75.20001220703125" text="Location" />
+            <TableColumn fx:id="Contact" prefWidth="76.79998779296875" text="Contact" />
+            <TableColumn fx:id="Type" prefWidth="61.60003662109375" text="Type" />
+            <TableColumn fx:id="StartDT" prefWidth="168.79998779296875" text="Start Date and Time" />
+            <TableColumn fx:id="EndDT" prefWidth="141.5999755859375" text="End Date and Time" />
+            <TableColumn fx:id="CustID" prefWidth="70.39990234375" text="Customer_ID" />
+            <TableColumn fx:id="UserID" prefWidth="74.400146484375" text="User_ID" />
         </columns>
       </TableView>
       <Button alignment="CENTER" layoutX="865.0" layoutY="534.0" mnemonicParsing="false" onAction="#handleExitBtn" prefHeight="26.0" prefWidth="58.0" text="Exit" />
-      <RadioButton fx:id="weekly" layoutX="17.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleSwitch" text="Weekly View">
-         <toggleGroup>
-            <ToggleGroup fx:id="View" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="monthly" layoutX="123.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleSwitch" text="Monthly View" toggleGroup="$View" />
-      <RadioButton layoutX="343.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
-      <RadioButton layoutX="239.0" layoutY="32.0" mnemonicParsing="false" text="RadioButton" />
       <Button alignment="CENTER" layoutX="25.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleViewCustomers" prefHeight="26.0" prefWidth="196.0" text="View Customer Records" />
-    </children>
+      <ComboBox fx:id="viewComboBox" layoutX="30.0" layoutY="23.0" onAction="#handleViewSelection" prefWidth="150.0" promptText="Select View" />
+      <TextField fx:id="contactFilter" layoutX="232.0" layoutY="23.0" onAction="#handleContactSearch" promptText="Search by Contact ID" />
+      <TextField fx:id="userFilter" layoutX="431.0" layoutY="23.0" onAction="#handleUserSearch" promptText="Search by User ID" />
+      <TableView fx:id="reportTable" layoutX="360.0" layoutY="376.0" prefHeight="200.0" prefWidth="338.0">
+        <columns>
+          <TableColumn fx:id="typeReport" prefWidth="105.0" text="Type" />
+          <TableColumn fx:id="monthReport" prefWidth="116.0" text="Month" />
+            <TableColumn fx:id="countReport" prefWidth="116.0" text="Count" />
+        </columns>
+      </TableView>
 </AnchorPane>

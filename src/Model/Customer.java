@@ -1,21 +1,65 @@
 package Model;
-
+/**
+ * This describes the "Customer" class with getters and setters for all class variables.
+ */
 public class Customer {
     private int custId;
     private String custName;
     private String custAddress;
     private String custPostal;
+    private String custCountry;
+    private int custCountryID;
+    private String custDivision;
     private String custPhone;
     private int divId;
-
-    public Customer(int custId, String custName, String custAddress, String custPostal, String custPhone, int divId) {
+    /**
+     * This allows public access of the "Customer" class to create an instance of a Customer Object.
+     * @param custId takes in int custID
+     * @param custName takes in String custName
+     * @param custAddress takes in String custAddress
+     * @param custPostal takes in String custPostal
+     * @param custCountry takes in String custCountry
+     * @param custCountryID takes in int custCountryId
+     * @param custDivision takes in String custDivision
+     * @param custPhone takes in String custPhone
+     * @param divId takes in int divId
+     */
+    public Customer(int custId, String custName, String custAddress, String custPostal, String custCountry, int custCountryID, String custDivision, String custPhone, int divId) {
         this.custId = custId;
         this.custName = custName;
         this.custAddress = custAddress;
         this.custPostal = custPostal;
+        this.custCountry = custCountry;
+        this.custCountryID = custCountryID;
         this.custPhone = custPhone;
+        this.custDivision = custDivision;
         this.divId = divId;
     }
+    public String getCustCountry() {
+        return custCountry;
+    }
+
+    public void setCustCountry(String custCountry) {
+        this.custCountry = custCountry;
+    }
+
+    public int getCustCountryID() {
+        return custCountryID;
+    }
+
+    public void setCustCountryID(int custCountryID) {
+        this.custCountryID = custCountryID;
+    }
+
+    public String getCustDivision() {
+        return custDivision;
+    }
+
+    public void setCustDivision(String custDivision) {
+        this.custDivision = custDivision;
+    }
+
+
     public int getCustId() {
         return custId;
     }

@@ -1,11 +1,18 @@
 package Model;
-
+/**
+ * This describes the "Division" class with getters and setters for all class variables.
+ */
 public class Division {
 
     private int divId;
     private String divName;
     private int countryId;
-
+    /**
+     * This allows public access of the "Division" class to create an instance of a Division Object.
+     * @param divId takes in int divId
+     * @param divName takes in String divName
+     * @param countryId takes in int countryId
+     */
     public Division(int divId, String divName, int countryId) {
         this.divId = divId;
         this.divName = divName;
