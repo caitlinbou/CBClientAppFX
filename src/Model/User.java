@@ -37,6 +37,6 @@ public class User {
     public String getPassword() {return password;}
 
     public String toString()  {
-        return this.name;
+        return this.id + " " + this.name;
     }
 }

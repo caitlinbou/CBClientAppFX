@@ -53,6 +53,7 @@ public class EditCustomersController {
      */
     @FXML
         void handleCountrySelected(ActionEvent event) {
+        editDiv.setDisable(false);
         Countries selectedCountry = editCountry.getValue();
         ObservableList<Division> filteredDivisions = divisionList.stream()
                 .filter(Division -> Objects.equals(Division.getCountryId(), selectedCountry.getId()))
@@ -91,6 +92,7 @@ public class EditCustomersController {
         thisCust = customer;
         ObservableList<Division> selectedDivision = DBDivisions.getDivisionByDivId(thisCust.getDivId());
         ObservableList<Division> divList = DBDivisions.getAllDivisions();
+
         ObservableList<Countries> selectedCountry = DBCountries.getCountrybyId(thisCust.getCustCountryID());
         ObservableList<Countries> countryList = DBCountries.getAllCountries();
         editCustId.setText(String.valueOf(thisCust.getCustId()));
@@ -120,7 +122,7 @@ public class EditCustomersController {
             custPostal = editPostal.getText();
             custPhone = editPhone.getText();
             Division custDiv =  editDiv.getValue();
-            if (custName.isEmpty() || custAddress.isEmpty() || custPostal.isEmpty() || custPhone.isEmpty() || editDiv.getSelectionModel().isEmpty() || editCountry.getSelectionModel().isEmpty()) {
+            if (custName.isEmpty() || custAddress.isEmpty() || custPostal.isEmpty() || custPhone.isEmpty() || custDiv == null) {
                 Alert alert;
                 alert = new Alert(Alert.AlertType.WARNING, "All inputs are required, please update missing fields");
                 alert.showAndWait();
