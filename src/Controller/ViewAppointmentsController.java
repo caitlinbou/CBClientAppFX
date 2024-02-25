@@ -73,9 +73,16 @@ public class ViewAppointmentsController implements Initializable {
 
     @FXML
     private ComboBox<User> userFilter;
+    @FXML
+    void handleClear(ActionEvent event) {
+    userFilter.getSelectionModel().clearSelection();
+    contactFilter.getSelectionModel().clearSelection();
+    viewComboBox.getSelectionModel().selectFirst();
+    appointmentTable.setItems(DBAppointments.getAllAppointments());
+    }
 
     @FXML
-    void handleContactSelection(ActionEvent event) {
+    void handleContactSelection(ActionEvent event){
         ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
         Contact selectedContact = contactFilter.getValue();
@@ -90,7 +97,7 @@ public class ViewAppointmentsController implements Initializable {
     }
 
     @FXML
-    void handleUserSelection(ActionEvent event) {
+    void handleUserSelection(ActionEvent event){
         ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
         ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
         User selectedUser = userFilter.getValue();
@@ -127,6 +134,8 @@ public class ViewAppointmentsController implements Initializable {
      */
     @FXML
     void handleViewSelection(ActionEvent event) {
+        contactFilter.getEditor().setVisible(false);
+        userFilter.getEditor().setVisible(false);
         String comboOption = viewComboBox.getValue();
         if (comboOption != null) {
             filterAppointments(comboOption);
@@ -149,6 +158,7 @@ public class ViewAppointmentsController implements Initializable {
         userFilter.setItems(userList);
         contactFilter.setItems(contactList);
         viewComboBox.setItems(options);
+        viewComboBox.getSelectionModel().selectFirst();
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
         appointmentTable.setItems(apptList);
         ApptID.setCellValueFactory(new PropertyValueFactory<>("apptId"));
