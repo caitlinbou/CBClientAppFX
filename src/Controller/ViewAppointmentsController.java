@@ -1,8 +1,12 @@
 package Controller;
 
 import DAO.DBAppointments;
+import DAO.DBContacts;
+import DAO.DBUsers;
 import Model.Appointment;
+import Model.Contact;
 import Model.Count;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,12 +34,6 @@ import java.util.ResourceBundle;
 public class ViewAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
-
-    @FXML
-    private TextField contactFilter;
-
-    @FXML
-    private TextField userFilter;
 
     @FXML
     private TableColumn<Appointment, Integer> ApptID;
@@ -71,6 +69,42 @@ public class ViewAppointmentsController implements Initializable {
     private ComboBox<String> viewComboBox;
 
     @FXML
+    private ComboBox<Contact> contactFilter;
+
+    @FXML
+    private ComboBox<User> userFilter;
+
+    @FXML
+    void handleContactSelection(ActionEvent event) {
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+        Contact selectedContact = contactFilter.getValue();
+        for (Appointment appointment : appointmentList) {
+            if (selectedContact != null) {
+                if (appointment.getContactId() == selectedContact.getContactId()) {
+                    filteredApptList.add(appointment);
+                }
+            }
+        }
+        appointmentTable.setItems(filteredApptList);
+    }
+
+    @FXML
+    void handleUserSelection(ActionEvent event) {
+        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
+        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
+        User selectedUser = userFilter.getValue();
+        for (Appointment appointment : appointmentList) {
+            if (selectedUser != null) {
+                if (appointment.getUserId() == selectedUser.getId()) {
+                    filteredApptList.add(appointment);
+                }
+            }
+        }
+        appointmentTable.setItems(filteredApptList);
+    }
+
+    @FXML
     private TableColumn<Count, Integer> countReport;
 
     @FXML
@@ -84,7 +118,8 @@ public class ViewAppointmentsController implements Initializable {
 
     @FXML
     private TableView<Appointment> appointmentTable;
-
+    ObservableList<Contact> contactList = DBContacts.getAllContacts();
+    ObservableList<User> userList = DBUsers.getAllUsers();
     /**
      * The handleViewSelection function filters through all appointments based on the combo option selected and presents the filtered list.
      * It does this by calling the FilterAppointments function.
@@ -94,7 +129,7 @@ public class ViewAppointmentsController implements Initializable {
     void handleViewSelection(ActionEvent event) {
         String comboOption = viewComboBox.getValue();
         if (comboOption != null) {
-            ObservableList<Appointment> filteredAppts = filterAppointments(comboOption);
+            filterAppointments(comboOption);
         }
     }
 
@@ -111,6 +146,8 @@ public class ViewAppointmentsController implements Initializable {
      */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
+        userFilter.setItems(userList);
+        contactFilter.setItems(contactList);
         viewComboBox.setItems(options);
         ObservableList<Appointment> apptList = DBAppointments.getAllAppointments();
         appointmentTable.setItems(apptList);
@@ -129,54 +166,6 @@ public class ViewAppointmentsController implements Initializable {
         typeReport.setCellValueFactory(new PropertyValueFactory<>("type"));
         monthReport.setCellValueFactory(new PropertyValueFactory<>("month"));
         countReport.setCellValueFactory(new PropertyValueFactory<>("count"));
-    }
-    /**
-     * The handleContactSearch filters all appointments by a user input contact ID and returns results on the reportTable to meet the contact report requirements of 3f
-     */
-    @FXML
-    void handleContactSearch(ActionEvent event) {
-        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
-        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
-            for (Appointment appointment : appointmentList) {
-                Integer inputContact = Integer.parseInt(contactFilter.getText());
-                if (inputContact == appointment.getContactId()) {
-                    filteredApptList.add(appointment);
-                }
-            }
-            if (contactFilter.getText().equals("") || filteredApptList.isEmpty()) {
-                Alert alert;
-                alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
-                alert.showAndWait();
-                appointmentTable.setItems(appointmentList);
-            }
-            else {
-                appointmentTable.setItems(filteredApptList);
-            }
-        contactFilter.clear();
-    }
-    /**
-     * The handleUserSearch filters all appointments by a user input User ID and returns results on the reportTable to meet the "additional report" requirements of 3f.
-     */
-    @FXML
-    void handleUserSearch(ActionEvent event) {
-        ObservableList<Appointment> appointmentList = DBAppointments.getAllAppointments();
-        ObservableList<Appointment> filteredApptList = FXCollections.observableArrayList();
-        for (Appointment appointment : appointmentList) {
-            Integer inputUser = Integer.parseInt(userFilter.getText());
-            if (inputUser == appointment.getUserId()) {
-                filteredApptList.add(appointment);
-            }
-        }
-        if (userFilter.getText().equals("") || filteredApptList.isEmpty()) {
-            Alert alert;
-            alert = new Alert(Alert.AlertType.WARNING, "There are no appointments for that input, please select a number representing a contact ID");
-            alert.showAndWait();
-            appointmentTable.setItems(appointmentList);
-        }
-        else {
-            appointmentTable.setItems(filteredApptList);
-        }
-        userFilter.clear();
     }
 
     /**
